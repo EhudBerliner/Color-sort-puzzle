@@ -7,9 +7,8 @@
     <meta name="description" content="משחק מיון צבעים - פאזל ממכר ומאתגר">
     <title>Color Sort Puzzle</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
     
     <style>
         /* ==================== CSS VARIABLES ==================== */
@@ -67,7 +66,7 @@
         }
 
         body {
-            font-family: 'Alef', 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow: hidden;
@@ -824,7 +823,7 @@
         <header class="header">
             <div class="header-left">
                 <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-                <div class="version-badge" id="versionBadge">v1.0.0</div>
+                <div class="version-badge" id="versionBadge">v1.1.0</div>
             </div>
             <div class="header-center">
                 <h1 class="game-title">Color Sort</h1>
@@ -994,32 +993,62 @@
                 this.numEmptyTubes = config.empty;
                 this.tubeCapacity = config.capacity;
 
-                // Create solved state first
-                const solvedTubes = [];
-                for (let i = 1; i <= this.numColors; i++) {
-                    solvedTubes.push(Array(this.tubeCapacity).fill(i));
+                // Create a flat array with all colors
+                const allColors = [];
+                for (let color = 1; color <= this.numColors; color++) {
+                    for (let i = 0; i < this.tubeCapacity; i++) {
+                        allColors.push(color);
+                    }
+                }
+
+                // Fisher-Yates shuffle algorithm for proper randomization
+                for (let i = allColors.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [allColors[i], allColors[j]] = [allColors[j], allColors[i]];
+                }
+
+                // Distribute colors into tubes
+                this.tubes = [];
+                let colorIndex = 0;
+                
+                // Fill color tubes
+                for (let tubeNum = 0; tubeNum < this.numColors; tubeNum++) {
+                    const tube = [];
+                    for (let i = 0; i < this.tubeCapacity; i++) {
+                        tube.push(allColors[colorIndex++]);
+                    }
+                    this.tubes.push(tube);
                 }
 
                 // Add empty tubes
                 for (let i = 0; i < this.numEmptyTubes; i++) {
-                    solvedTubes.push([]);
+                    this.tubes.push([]);
                 }
 
-                // Shuffle by performing random valid moves backwards
-                this.tubes = JSON.parse(JSON.stringify(solvedTubes));
-                this.shuffleBackwards(100 + this.numColors * 20);
+                // Verify the puzzle is not already solved
+                if (this.isSolved()) {
+                    // Re-shuffle if accidentally solved
+                    return this.generateLevel(difficulty);
+                }
+
+                // Additional shuffle to ensure variety - perform some random valid moves
+                this.performAdditionalShuffle(15 + this.numColors * 3);
 
                 return this.tubes;
             }
 
-            // Shuffle by performing random valid moves in reverse
-            shuffleBackwards(moves) {
-                for (let i = 0; i < moves; i++) {
-                    const validMoves = this.getAllValidMoves();
-                    if (validMoves.length === 0) break;
+            // Perform additional shuffling with random valid moves
+            performAdditionalShuffle(numMoves) {
+                for (let attempt = 0; attempt < numMoves * 3; attempt++) {
+                    const moves = this.getAllValidMoves();
+                    if (moves.length === 0) break;
 
-                    const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    // Pick a random valid move
+                    const randomMove = moves[Math.floor(Math.random() * moves.length)];
                     this.performMove(randomMove.from, randomMove.to, true);
+
+                    // Stop if we've done enough moves
+                    if (attempt >= numMoves && !this.isSolved()) break;
                 }
             }
 

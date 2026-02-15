@@ -1,9 +1,9 @@
-const CACHE_NAME = 'color-sort-v1.0.0';
+const CACHE_NAME = 'color-sort-v1.1.0';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Rubik:wght@400;500;600;700&display=swap'
+  './logo.png'
 ];
 
 // Install event - cache resources
