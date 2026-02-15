@@ -1,14 +1,14 @@
 {
-  "name": "Color Sort Puzzle - משחק מיון צבעים",
+  "name": "Color Sort Puzzle - Addictive Sorting Game",
   "short_name": "Color Sort",
-  "description": "משחק פאזל ממכר ומאתגר למיון צבעים במבחנות",
+  "description": "Addictive and challenging color sorting puzzle game",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#6366f1",
   "orientation": "portrait",
-  "dir": "rtl",
-  "lang": "he",
+  "dir": "ltr",
+  "lang": "en",
   "categories": ["games", "entertainment"],
   "icons": [
     {
@@ -26,30 +26,30 @@
   ],
   "shortcuts": [
     {
-      "name": "משחק קל",
-      "short_name": "קל",
-      "description": "התחל משחק ברמת קושי קלה",
+      "name": "Easy Game",
+      "short_name": "Easy",
+      "description": "Start an easy difficulty game",
       "url": "./?difficulty=easy",
       "icons": [{ "src": "logo.png", "sizes": "512x512" }]
     },
     {
-      "name": "משחק בינוני",
-      "short_name": "בינוני",
-      "description": "התחל משחק ברמת קושי בינונית",
+      "name": "Medium Game",
+      "short_name": "Medium",
+      "description": "Start a medium difficulty game",
       "url": "./?difficulty=medium",
       "icons": [{ "src": "logo.png", "sizes": "512x512" }]
     },
     {
-      "name": "משחק קשה",
-      "short_name": "קשה",
-      "description": "התחל משחק ברמת קושי גבוהה",
+      "name": "Hard Game",
+      "short_name": "Hard",
+      "description": "Start a hard difficulty game",
       "url": "./?difficulty=hard",
       "icons": [{ "src": "logo.png", "sizes": "512x512" }]
     },
     {
-      "name": "משחק מומחה",
-      "short_name": "מומחה",
-      "description": "התחל משחק ברמת קושי מומחה",
+      "name": "Expert Game",
+      "short_name": "Expert",
+      "description": "Start an expert difficulty game",
       "url": "./?difficulty=expert",
       "icons": [{ "src": "logo.png", "sizes": "512x512" }]
     }

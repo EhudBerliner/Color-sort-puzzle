@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#6366f1">
-    <meta name="description" content="משחק מיון צבעים - פאזל ממכר ומאתגר">
+    <meta name="description" content="Color Sort Puzzle - Addictive and challenging sorting game">
     <title>Color Sort Puzzle</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo.png">
@@ -823,7 +823,7 @@
         <header class="header">
             <div class="header-left">
                 <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-                <div class="version-badge" id="versionBadge">v1.1.0</div>
+                <div class="version-badge" id="versionBadge">v1.2.0</div>
             </div>
             <div class="header-center">
                 <h1 class="game-title">Color Sort</h1>
@@ -837,15 +837,15 @@
         <!-- Stats Bar -->
         <div class="stats-bar">
             <div class="stat-item">
-                <div class="stat-label">מהלכים</div>
+                <div class="stat-label">Moves</div>
                 <div class="stat-value" id="movesCount">0</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">זמן</div>
+                <div class="stat-label">Time</div>
                 <div class="stat-value" id="timerDisplay">00:00</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">רמה</div>
+                <div class="stat-label">Level</div>
                 <div class="stat-value" id="levelDisplay">1</div>
             </div>
         </div>
@@ -857,9 +857,9 @@
 
         <!-- Controls -->
         <div class="controls-bar">
-            <button class="control-btn secondary" id="restartBtn">🔄 איפוס</button>
-            <button class="control-btn primary" id="hintBtn">💡 רמז</button>
-            <button class="control-btn secondary" id="addTubeBtn">➕ מבחנה</button>
+            <button class="control-btn secondary" id="restartBtn">🔄 Restart</button>
+            <button class="control-btn primary" id="hintBtn">💡 Hint</button>
+            <button class="control-btn secondary" id="addTubeBtn">➕ Add Tube</button>
         </div>
     </div>
 
@@ -867,36 +867,36 @@
     <div class="menu-overlay" id="menuOverlay">
         <div class="menu-content">
             <div class="menu-header">
-                <h2 class="menu-title">תפריט</h2>
+                <h2 class="menu-title">Menu</h2>
                 <button class="close-btn" id="closeMenuBtn">×</button>
             </div>
 
             <div class="menu-section">
-                <h3 class="section-title">משחק חדש</h3>
+                <h3 class="section-title">New Game</h3>
                 <div class="difficulty-grid">
-                    <button class="difficulty-btn easy" data-difficulty="easy">קל 🟢</button>
-                    <button class="difficulty-btn medium" data-difficulty="medium">בינוני 🟡</button>
-                    <button class="difficulty-btn hard" data-difficulty="hard">קשה 🟠</button>
-                    <button class="difficulty-btn expert" data-difficulty="expert">מומחה 🔴</button>
+                    <button class="difficulty-btn easy" data-difficulty="easy">Easy 🟢</button>
+                    <button class="difficulty-btn medium" data-difficulty="medium">Medium 🟡</button>
+                    <button class="difficulty-btn hard" data-difficulty="hard">Hard 🟠</button>
+                    <button class="difficulty-btn expert" data-difficulty="expert">Expert 🔴</button>
                 </div>
             </div>
 
             <div class="menu-section">
-                <h3 class="section-title">הגדרות</h3>
+                <h3 class="section-title">Settings</h3>
                 <div class="settings-item">
-                    <span>מצב כהה</span>
+                    <span>Dark Mode</span>
                     <div class="toggle-switch" id="themeToggle">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
                 <div class="settings-item">
-                    <span>רטט</span>
+                    <span>Vibration</span>
                     <div class="toggle-switch active" id="vibrationToggle">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
                 <div class="settings-item">
-                    <span>אפקטי קול</span>
+                    <span>Sound Effects</span>
                     <div class="toggle-switch active" id="soundToggle">
                         <div class="toggle-slider"></div>
                     </div>
@@ -904,30 +904,30 @@
             </div>
 
             <div class="menu-section">
-                <h3 class="section-title">סטטיסטיקות</h3>
+                <h3 class="section-title">Statistics</h3>
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-card-value" id="totalGamesPlayed">0</div>
-                        <div class="stat-card-label">משחקים</div>
+                        <div class="stat-card-label">Games</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-card-value" id="totalWins">0</div>
-                        <div class="stat-card-label">ניצחונות</div>
+                        <div class="stat-card-label">Wins</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-card-value" id="bestTime">--:--</div>
-                        <div class="stat-card-label">זמן שיא</div>
+                        <div class="stat-card-label">Best Time</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-card-value" id="avgMoves">0</div>
-                        <div class="stat-card-label">ממוצע מהלכים</div>
+                        <div class="stat-card-label">Avg Moves</div>
                     </div>
                 </div>
             </div>
 
             <div class="menu-section">
                 <button class="control-btn danger" id="resetDataBtn" style="width: 100%; background: var(--danger); color: white;">
-                    🗑️ מחק את כל הנתונים
+                    🗑️ Delete All Data
                 </button>
             </div>
         </div>
@@ -937,7 +937,7 @@
     <div class="win-overlay" id="winOverlay">
         <div class="win-modal">
             <div class="win-emoji">🎉</div>
-            <h2 class="win-title">מעולה!</h2>
+            <h2 class="win-title">Excellent!</h2>
             <div class="stars" id="starsDisplay">
                 <span class="star">⭐</span>
                 <span class="star">⭐</span>
@@ -946,16 +946,16 @@
             <div class="win-stats">
                 <div class="win-stat">
                     <div class="win-stat-value" id="winMoves">0</div>
-                    <div class="win-stat-label">מהלכים</div>
+                    <div class="win-stat-label">Moves</div>
                 </div>
                 <div class="win-stat">
                     <div class="win-stat-value" id="winTime">00:00</div>
-                    <div class="win-stat-label">זמן</div>
+                    <div class="win-stat-label">Time</div>
                 </div>
             </div>
             <div class="win-buttons">
-                <button class="win-btn secondary" id="winMenuBtn">תפריט</button>
-                <button class="win-btn primary" id="winNextBtn">הבא ➜</button>
+                <button class="win-btn secondary" id="winMenuBtn">Menu</button>
+                <button class="win-btn primary" id="winNextBtn">Next ➜</button>
             </div>
         </div>
     </div>
@@ -993,31 +993,10 @@
                 this.numEmptyTubes = config.empty;
                 this.tubeCapacity = config.capacity;
 
-                // Create a flat array with all colors
-                const allColors = [];
-                for (let color = 1; color <= this.numColors; color++) {
-                    for (let i = 0; i < this.tubeCapacity; i++) {
-                        allColors.push(color);
-                    }
-                }
-
-                // Fisher-Yates shuffle algorithm for proper randomization
-                for (let i = allColors.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [allColors[i], allColors[j]] = [allColors[j], allColors[i]];
-                }
-
-                // Distribute colors into tubes
+                // Create SOLVED state first - each tube has one color
                 this.tubes = [];
-                let colorIndex = 0;
-                
-                // Fill color tubes
-                for (let tubeNum = 0; tubeNum < this.numColors; tubeNum++) {
-                    const tube = [];
-                    for (let i = 0; i < this.tubeCapacity; i++) {
-                        tube.push(allColors[colorIndex++]);
-                    }
-                    this.tubes.push(tube);
+                for (let color = 1; color <= this.numColors; color++) {
+                    this.tubes.push(Array(this.tubeCapacity).fill(color));
                 }
 
                 // Add empty tubes
@@ -1025,30 +1004,69 @@
                     this.tubes.push([]);
                 }
 
-                // Verify the puzzle is not already solved
+                // Now perform REVERSE moves (pouring from solved tubes)
+                // This guarantees the puzzle is solvable by reversing the moves
+                const numShuffleMoves = 50 + this.numColors * 10;
+                this.reverseShuffleFromSolved(numShuffleMoves);
+
+                // If by chance we ended up solved, try again
                 if (this.isSolved()) {
-                    // Re-shuffle if accidentally solved
                     return this.generateLevel(difficulty);
                 }
-
-                // Additional shuffle to ensure variety - perform some random valid moves
-                this.performAdditionalShuffle(15 + this.numColors * 3);
 
                 return this.tubes;
             }
 
-            // Perform additional shuffling with random valid moves
-            performAdditionalShuffle(numMoves) {
-                for (let attempt = 0; attempt < numMoves * 3; attempt++) {
-                    const moves = this.getAllValidMoves();
-                    if (moves.length === 0) break;
+            // Shuffle by performing random moves from the SOLVED state
+            // This guarantees solvability - we can always reverse the moves
+            reverseShuffleFromSolved(numMoves) {
+                let movesPerformed = 0;
+                let attempts = 0;
+                const maxAttempts = numMoves * 5;
 
-                    // Pick a random valid move
-                    const randomMove = moves[Math.floor(Math.random() * moves.length)];
-                    this.performMove(randomMove.from, randomMove.to, true);
+                while (movesPerformed < numMoves && attempts < maxAttempts) {
+                    attempts++;
 
-                    // Stop if we've done enough moves
-                    if (attempt >= numMoves && !this.isSolved()) break;
+                    // Pick a random non-empty tube (source)
+                    const fullTubes = [];
+                    for (let i = 0; i < this.tubes.length; i++) {
+                        if (this.tubes[i].length > 0) {
+                            fullTubes.push(i);
+                        }
+                    }
+
+                    if (fullTubes.length === 0) break;
+
+                    const fromIndex = fullTubes[Math.floor(Math.random() * fullTubes.length)];
+                    
+                    // Pick a random target tube (must not be full and not the same)
+                    const possibleTargets = [];
+                    for (let i = 0; i < this.tubes.length; i++) {
+                        if (i !== fromIndex && this.tubes[i].length < this.tubeCapacity) {
+                            possibleTargets.push(i);
+                        }
+                    }
+
+                    if (possibleTargets.length === 0) continue;
+
+                    const toIndex = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
+
+                    // Perform the move (doesn't need to follow game rules during shuffle)
+                    const fromTube = this.tubes[fromIndex];
+                    const toTube = this.tubes[toIndex];
+
+                    // Move 1-3 colors randomly
+                    const numToMove = Math.min(
+                        Math.floor(Math.random() * 3) + 1,
+                        fromTube.length,
+                        this.tubeCapacity - toTube.length
+                    );
+
+                    for (let i = 0; i < numToMove; i++) {
+                        toTube.push(fromTube.pop());
+                    }
+
+                    movesPerformed++;
                 }
             }
 
@@ -1569,7 +1587,7 @@
                 } else {
                     // Invalid move
                     this.ui.showInvalidMove(toIndex);
-                    this.ui.showToast('מהלך לא חוקי!', 'error');
+                    this.ui.showToast('Invalid move!', 'error');
                     this.ui.deselectTube();
                     this.vibrate(50);
                 }
@@ -1621,7 +1639,7 @@
                     this.ui.updateStats(this.moves, this.time, this.currentLevel);
                     this.ui.updateButtons(false, false, this.engine.addedTubes < 2);
                     this.ui.deselectTube();
-                    this.ui.showToast('המשחק אופס', 'info');
+                    this.ui.showToast('Game restarted', 'info');
                     this.vibrate(20);
                     this.saveGameState();
                 }
@@ -1632,10 +1650,10 @@
                 const hint = this.engine.getHint();
                 if (hint) {
                     this.ui.highlightHint(hint.from, hint.to);
-                    this.ui.showToast('הרמז מוצג על הלוח', 'success');
+                    this.ui.showToast('Hint shown on board', 'success');
                     this.vibrate(15);
                 } else {
-                    this.ui.showToast('אין רמזים זמינים', 'info');
+                    this.ui.showToast('No hints available', 'info');
                 }
             }
 
@@ -1644,11 +1662,11 @@
                 if (this.engine.addTube()) {
                     this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
                     this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-                    this.ui.showToast('מבחנה נוספה!', 'success');
+                    this.ui.showToast('Tube added!', 'success');
                     this.vibrate(20);
                     this.saveGameState();
                 } else {
-                    this.ui.showToast('לא ניתן להוסיף יותר מבחנות', 'error');
+                    this.ui.showToast('Cannot add more tubes', 'error');
                 }
             }
 
@@ -1753,11 +1771,11 @@
                 const dialog = document.createElement('div');
                 dialog.className = 'reset-modal';
                 dialog.innerHTML = `
-                    <h3 class="reset-modal-title">מחיקת נתונים</h3>
-                    <p class="reset-modal-text">האם אתה בטוח שברצונך למחוק את כל נתוני האפליקציה? פעולה זו תמחק את כל ההתקדמות, הסטטיסטיקות וההגדרות שלך.</p>
+                    <h3 class="reset-modal-title">Delete Data</h3>
+                    <p class="reset-modal-text">Are you sure you want to delete all app data? This will erase all your progress, statistics, and settings.</p>
                     <div class="reset-modal-buttons">
-                        <button class="reset-modal-btn cancel">ביטול</button>
-                        <button class="reset-modal-btn danger">מחק הכל</button>
+                        <button class="reset-modal-btn cancel">Cancel</button>
+                        <button class="reset-modal-btn danger">Delete All</button>
                     </div>
                 `;
 
@@ -1792,7 +1810,7 @@
                     await Promise.all(cacheNames.map(name => caches.delete(name)));
                 }
 
-                this.ui.showToast('כל הנתונים נמחקו. האפליקציה תטען מחדש...', 'success');
+                this.ui.showToast('All data deleted. App will reload...', 'success');
                 
                 setTimeout(() => {
                     window.location.reload(true);
