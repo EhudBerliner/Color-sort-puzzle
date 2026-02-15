@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="description" content="משחק מיון צבעים - פאזל ממכר ומאתגר">
+    <title>Color Sort Puzzle</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==================== CSS VARIABLES ==================== */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --tube-bg: rgba(255, 255, 255, 0.05);
+            --tube-border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --overlay-bg: rgba(15, 23, 42, 0.95);
+            
+            /* Game Colors */
+            --color-1: #ef4444;
+            --color-2: #3b82f6;
+            --color-3: #10b981;
+            --color-4: #f59e0b;
+            --color-5: #8b5cf6;
+            --color-6: #ec4899;
+            --color-7: #06b6d4;
+            --color-8: #f97316;
+            --color-9: #84cc16;
+            --color-10: #a855f7;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --tube-bg: rgba(0, 0, 0, 0.03);
+            --tube-border: rgba(0, 0, 0, 0.1);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --overlay-bg: rgba(248, 250, 252, 0.98);
+        }
+
+        /* ==================== BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Alef', 'Rubik', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            touch-action: none;
+        }
+
+        /* ==================== LAYOUT ==================== */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            width: 100%;
+            position: relative;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px var(--shadow);
+            z-index: 100;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .menu-btn:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .version-badge {
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .version-badge:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        .header-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--color-5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .icon-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ==================== STATS BAR ==================== */
+        .stats-bar {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-around;
+            gap: 12px;
+            border-top: 1px solid var(--tube-border);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ==================== GAME AREA ==================== */
+        .game-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tubes-grid {
+            display: grid;
+            gap: 16px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .tubes-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .tubes-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+        .tubes-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+        .tubes-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+
+        /* ==================== TUBE STYLES ==================== */
+        .tube {
+            background: var(--tube-bg);
+            border: 2px solid var(--tube-border);
+            border-radius: 12px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            aspect-ratio: 1 / 1.4;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 4px;
+            min-width: 60px;
+        }
+
+        .tube:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .tube.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        .tube.shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .tube.added-tube {
+            border-color: var(--warning);
+            border-style: dashed;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .color-segment {
+            flex: 1;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            min-height: 20px;
+            box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-segment::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 10%;
+            width: 30%;
+            height: 30%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(4px);
+        }
+
+        /* Color classes */
+        .color-1 { background: var(--color-1); }
+        .color-2 { background: var(--color-2); }
+        .color-3 { background: var(--color-3); }
+        .color-4 { background: var(--color-4); }
+        .color-5 { background: var(--color-5); }
+        .color-6 { background: var(--color-6); }
+        .color-7 { background: var(--color-7); }
+        .color-8 { background: var(--color-8); }
+        .color-9 { background: var(--color-9); }
+        .color-10 { background: var(--color-10); }
+
+        /* ==================== CONTROLS ==================== */
+        .controls-bar {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            box-shadow: 0 -2px 8px var(--shadow);
+        }
+
+        .control-btn {
+            flex: 1;
+            max-width: 140px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+
+        .control-btn.primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .control-btn.primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .control-btn.secondary:hover {
+            background: var(--tube-border);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ==================== MENU OVERLAY ==================== */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .menu-content {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .menu-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: var(--bg-tertiary);
+            border: none;
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .menu-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .difficulty-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .difficulty-btn {
+            padding: 16px;
+            border: 2px solid var(--tube-border);
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .difficulty-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .difficulty-btn.easy { border-color: var(--success); }
+        .difficulty-btn.medium { border-color: var(--color-4); }
+        .difficulty-btn.hard { border-color: var(--warning); }
+        .difficulty-btn.expert { border-color: var(--danger); }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--tube-border);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: var(--bg-tertiary);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--accent);
+        }
+
+        .toggle-slider {
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(-24px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .stat-card-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ==================== WIN MODAL ==================== */
+        .win-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .win-overlay.active {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .win-modal {
+            background: var(--bg-secondary);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .win-emoji {
+            font-size: 64px;
+            margin-bottom: 16px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .win-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--success), var(--color-7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .win-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .win-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .win-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .win-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 16px 0;
+            font-size: 36px;
+        }
+
+        .star {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .star.filled {
+            color: var(--color-4);
+            animation: starPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes starPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .win-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .win-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .win-btn.primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .win-btn.secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        /* ==================== TOAST NOTIFICATIONS ==================== */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+            pointer-events: auto;
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--accent);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ==================== CONFETTI ==================== */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            position: fixed;
+            left: 50%;
+            top: 0;
+            pointer-events: none;
+            z-index: 2500;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 400px) {
+            .tubes-grid {
+                gap: 12px;
+            }
+            
+            .tube {
+                min-width: 50px;
+            }
+            
+            .control-btn {
+                font-size: 12px;
+                padding: 10px 12px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .tubes-grid {
+                max-width: 600px;
+            }
+        }
+
+        /* ==================== UTILITIES ==================== */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Reset Dialog Modal */
+        .reset-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            z-index: 3001;
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .reset-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .reset-modal-text {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .reset-modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .reset-modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .reset-modal-btn.danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .reset-modal-btn.cancel {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+                <div class="version-badge" id="versionBadge">v1.0.0</div>
+            </div>
+            <div class="header-center">
+                <h1 class="game-title">Color Sort</h1>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" id="undoBtn" aria-label="Undo" disabled>↶</button>
+                <button class="icon-btn" id="redoBtn" aria-label="Redo" disabled>↷</button>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-label">מהלכים</div>
+                <div class="stat-value" id="movesCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">זמן</div>
+                <div class="stat-value" id="timerDisplay">00:00</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">רמה</div>
+                <div class="stat-value" id="levelDisplay">1</div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-container">
+            <div class="tubes-grid" id="tubesGrid"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-bar">
+            <button class="control-btn secondary" id="restartBtn">🔄 איפוס</button>
+            <button class="control-btn primary" id="hintBtn">💡 רמז</button>
+            <button class="control-btn secondary" id="addTubeBtn">➕ מבחנה</button>
+        </div>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-content">
+            <div class="menu-header">
+                <h2 class="menu-title">תפריט</h2>
+                <button class="close-btn" id="closeMenuBtn">×</button>
+            </div>
+
+            <div class="menu-section">
+                <h3 class="section-title">משחק חדש</h3>
+                <div class="difficulty-grid">
+                    <button class="difficulty-btn easy" data-difficulty="easy">קל 🟢</button>
+                    <button class="difficulty-btn medium" data-difficulty="medium">בינוני 🟡</button>
+                    <button class="difficulty-btn hard" data-difficulty="hard">קשה 🟠</button>
+                    <button class="difficulty-btn expert" data-difficulty="expert">מומחה 🔴</button>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <h3 class="section-title">הגדרות</h3>
+                <div class="settings-item">
+                    <span>מצב כהה</span>
+                    <div class="toggle-switch" id="themeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <span>רטט</span>
+                    <div class="toggle-switch active" id="vibrationToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <span>אפקטי קול</span>
+                    <div class="toggle-switch active" id="soundToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <h3 class="section-title">סטטיסטיקות</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-value" id="totalGamesPlayed">0</div>
+                        <div class="stat-card-label">משחקים</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-value" id="totalWins">0</div>
+                        <div class="stat-card-label">ניצחונות</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-value" id="bestTime">--:--</div>
+                        <div class="stat-card-label">זמן שיא</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-value" id="avgMoves">0</div>
+                        <div class="stat-card-label">ממוצע מהלכים</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-section">
+                <button class="control-btn danger" id="resetDataBtn" style="width: 100%; background: var(--danger); color: white;">
+                    🗑️ מחק את כל הנתונים
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Overlay -->
+    <div class="win-overlay" id="winOverlay">
+        <div class="win-modal">
+            <div class="win-emoji">🎉</div>
+            <h2 class="win-title">מעולה!</h2>
+            <div class="stars" id="starsDisplay">
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+                <span class="star">⭐</span>
+            </div>
+            <div class="win-stats">
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winMoves">0</div>
+                    <div class="win-stat-label">מהלכים</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winTime">00:00</div>
+                    <div class="win-stat-label">זמן</div>
+                </div>
+            </div>
+            <div class="win-buttons">
+                <button class="win-btn secondary" id="winMenuBtn">תפריט</button>
+                <button class="win-btn primary" id="winNextBtn">הבא ➜</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ==================== SORTING ENGINE ====================
+        class SortingEngine {
+            constructor() {
+                this.tubes = [];
+                this.tubeCapacity = 4;
+                this.numColors = 0;
+                this.numEmptyTubes = 0;
+                this.difficulty = 'medium';
+                this.addedTubes = 0;
+            }
+
+            // Generate a new level based on difficulty
+            generateLevel(difficulty = 'medium') {
+                this.difficulty = difficulty;
+                this.addedTubes = 0;
+
+                // Set parameters based on difficulty
+                const params = {
+                    easy: { colors: 4, empty: 2, capacity: 4 },
+                    medium: { colors: 6, empty: 2, capacity: 4 },
+                    hard: { colors: 8, empty: 2, capacity: 4 },
+                    expert: { colors: 10, empty: 2, capacity: 4 }
+                };
+
+                const config = params[difficulty];
+                this.numColors = config.colors;
+                this.numEmptyTubes = config.empty;
+                this.tubeCapacity = config.capacity;
+
+                // Create solved state first
+                const solvedTubes = [];
+                for (let i = 1; i <= this.numColors; i++) {
+                    solvedTubes.push(Array(this.tubeCapacity).fill(i));
+                }
+
+                // Add empty tubes
+                for (let i = 0; i < this.numEmptyTubes; i++) {
+                    solvedTubes.push([]);
+                }
+
+                // Shuffle by performing random valid moves backwards
+                this.tubes = JSON.parse(JSON.stringify(solvedTubes));
+                this.shuffleBackwards(100 + this.numColors * 20);
+
+                return this.tubes;
+            }
+
+            // Shuffle by performing random valid moves in reverse
+            shuffleBackwards(moves) {
+                for (let i = 0; i < moves; i++) {
+                    const validMoves = this.getAllValidMoves();
+                    if (validMoves.length === 0) break;
+
+                    const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    this.performMove(randomMove.from, randomMove.to, true);
+                }
+            }
+
+            // Get all valid moves for current state
+            getAllValidMoves() {
+                const moves = [];
+                for (let from = 0; from < this.tubes.length; from++) {
+                    for (let to = 0; to < this.tubes.length; to++) {
+                        if (from !== to && this.isValidMove(from, to)) {
+                            moves.push({ from, to });
+                        }
+                    }
+                }
+                return moves;
+            }
+
+            // Check if a move is valid
+            isValidMove(fromIndex, toIndex) {
+                const fromTube = this.tubes[fromIndex];
+                const toTube = this.tubes[toIndex];
+
+                // Can't move from empty tube
+                if (fromTube.length === 0) return false;
+
+                // Can't move to full tube
+                if (toTube.length >= this.tubeCapacity) return false;
+
+                // Can move to empty tube
+                if (toTube.length === 0) return true;
+
+                // Can only move to same color
+                const fromColor = fromTube[fromTube.length - 1];
+                const toColor = toTube[toTube.length - 1];
+
+                return fromColor === toColor;
+            }
+
+            // Perform a move
+            performMove(fromIndex, toIndex, silent = false) {
+                if (!this.isValidMove(fromIndex, toIndex)) {
+                    return { success: false, moved: 0 };
+                }
+
+                const fromTube = this.tubes[fromIndex];
+                const toTube = this.tubes[toIndex];
+                const color = fromTube[fromTube.length - 1];
+
+                // Count how many of the same color can be moved
+                let countToMove = 0;
+                for (let i = fromTube.length - 1; i >= 0; i--) {
+                    if (fromTube[i] === color) {
+                        countToMove++;
+                    } else {
+                        break;
+                    }
+                }
+
+                // Calculate how many can actually fit
+                const spaceAvailable = this.tubeCapacity - toTube.length;
+                const actualMove = Math.min(countToMove, spaceAvailable);
+
+                // Perform the move
+                for (let i = 0; i < actualMove; i++) {
+                    toTube.push(fromTube.pop());
+                }
+
+                return { success: true, moved: actualMove };
+            }
+
+            // Check if the puzzle is solved
+            isSolved() {
+                for (const tube of this.tubes) {
+                    // Empty tubes are OK
+                    if (tube.length === 0) continue;
+
+                    // Tube must be full
+                    if (tube.length !== this.tubeCapacity) return false;
+
+                    // All colors must be the same
+                    const firstColor = tube[0];
+                    if (!tube.every(color => color === firstColor)) return false;
+                }
+                return true;
+            }
+
+            // Get a hint (find one valid move)
+            getHint() {
+                const moves = this.getAllValidMoves();
+                
+                // Filter out pointless moves (moving to empty when source is already uniform)
+                const goodMoves = moves.filter(move => {
+                    const fromTube = this.tubes[move.from];
+                    const toTube = this.tubes[move.to];
+                    
+                    // If moving to empty tube, only suggest if it helps
+                    if (toTube.length === 0) {
+                        // Check if source tube is not already uniform
+                        const firstColor = fromTube[0];
+                        return !fromTube.every(c => c === firstColor);
+                    }
+                    
+                    return true;
+                });
+
+                return goodMoves.length > 0 ? goodMoves[0] : null;
+            }
+
+            // Add an empty tube
+            addTube() {
+                if (this.addedTubes >= 2) return false; // Max 2 added tubes
+                this.tubes.push([]);
+                this.addedTubes++;
+                return true;
+            }
+
+            // Get current state
+            getState() {
+                return {
+                    tubes: JSON.parse(JSON.stringify(this.tubes)),
+                    difficulty: this.difficulty,
+                    addedTubes: this.addedTubes,
+                    tubeCapacity: this.tubeCapacity
+                };
+            }
+
+            // Load state
+            loadState(state) {
+                this.tubes = JSON.parse(JSON.stringify(state.tubes));
+                this.difficulty = state.difficulty || 'medium';
+                this.addedTubes = state.addedTubes || 0;
+                this.tubeCapacity = state.tubeCapacity || 4;
+            }
+        }
+
+        // ==================== UI CONTROLLER ====================
+        class UIController {
+            constructor() {
+                this.selectedTubeIndex = null;
+                this.animating = false;
+            }
+
+            // Render the tubes on screen
+            renderTubes(tubes, tubeCapacity, addedTubesCount) {
+                const grid = document.getElementById('tubesGrid');
+                grid.innerHTML = '';
+
+                // Calculate grid columns
+                const totalTubes = tubes.length;
+                let cols = 4;
+                if (totalTubes <= 6) cols = 3;
+                if (totalTubes > 8) cols = 5;
+                if (totalTubes > 10) cols = 6;
+
+                grid.className = `tubes-grid cols-${cols}`;
+
+                tubes.forEach((tube, index) => {
+                    const tubeEl = document.createElement('div');
+                    tubeEl.className = 'tube';
+                    tubeEl.dataset.index = index;
+
+                    // Mark added tubes
+                    if (index >= tubes.length - addedTubesCount) {
+                        tubeEl.classList.add('added-tube');
+                    }
+
+                    // Add color segments
+                    const segments = [];
+                    for (let i = 0; i < tubeCapacity; i++) {
+                        const segment = document.createElement('div');
+                        segment.className = 'color-segment';
+                        
+                        if (tube[i]) {
+                            segment.classList.add(`color-${tube[i]}`);
+                        } else {
+                            segment.style.opacity = '0';
+                        }
+                        
+                        segments.push(segment);
+                    }
+
+                    segments.forEach(seg => tubeEl.appendChild(seg));
+                    grid.appendChild(tubeEl);
+                });
+            }
+
+            // Select a tube
+            selectTube(index) {
+                // Deselect previous
+                if (this.selectedTubeIndex !== null) {
+                    const prevTube = document.querySelector(`[data-index="${this.selectedTubeIndex}"]`);
+                    if (prevTube) prevTube.classList.remove('selected');
+                }
+
+                // Select new
+                this.selectedTubeIndex = index;
+                const tube = document.querySelector(`[data-index="${index}"]`);
+                if (tube) {
+                    tube.classList.add('selected');
+                }
+            }
+
+            // Deselect tube
+            deselectTube() {
+                if (this.selectedTubeIndex !== null) {
+                    const tube = document.querySelector(`[data-index="${this.selectedTubeIndex}"]`);
+                    if (tube) tube.classList.remove('selected');
+                }
+                this.selectedTubeIndex = null;
+            }
+
+            // Show invalid move animation
+            showInvalidMove(index) {
+                const tube = document.querySelector(`[data-index="${index}"]`);
+                if (tube) {
+                    tube.classList.add('shake');
+                    setTimeout(() => tube.classList.remove('shake'), 300);
+                }
+            }
+
+            // Animate move
+            async animateMove(fromIndex, toIndex, callback) {
+                this.animating = true;
+                
+                // Visual feedback
+                const fromTube = document.querySelector(`[data-index="${fromIndex}"]`);
+                const toTube = document.querySelector(`[data-index="${toIndex}"]`);
+                
+                if (fromTube) fromTube.style.transform = 'scale(0.95)';
+                if (toTube) toTube.style.transform = 'scale(1.05)';
+
+                setTimeout(() => {
+                    if (fromTube) fromTube.style.transform = '';
+                    if (toTube) toTube.style.transform = '';
+                    
+                    if (callback) callback();
+                    this.animating = false;
+                }, 300);
+            }
+
+            // Update stats display
+            updateStats(moves, time, level) {
+                document.getElementById('movesCount').textContent = moves;
+                document.getElementById('timerDisplay').textContent = this.formatTime(time);
+                document.getElementById('levelDisplay').textContent = level;
+            }
+
+            // Format time as MM:SS
+            formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Show toast notification
+            showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                
+                const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
+                toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+                
+                container.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
+
+            // Show win screen
+            showWinScreen(moves, time, stars) {
+                const overlay = document.getElementById('winOverlay');
+                overlay.classList.add('active');
+
+                document.getElementById('winMoves').textContent = moves;
+                document.getElementById('winTime').textContent = this.formatTime(time);
+
+                // Animate stars
+                const starElements = document.querySelectorAll('#starsDisplay .star');
+                starElements.forEach((star, i) => {
+                    star.classList.remove('filled');
+                    if (i < stars) {
+                        setTimeout(() => star.classList.add('filled'), i * 200);
+                    }
+                });
+
+                // Confetti
+                this.createConfetti();
+            }
+
+            // Hide win screen
+            hideWinScreen() {
+                document.getElementById('winOverlay').classList.remove('active');
+            }
+
+            // Create confetti effect
+            createConfetti() {
+                const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear`;
+                        document.body.appendChild(confetti);
+
+                        setTimeout(() => confetti.remove(), 4000);
+                    }, i * 30);
+                }
+
+                // Add confetti animation
+                if (!document.getElementById('confettiStyle')) {
+                    const style = document.createElement('style');
+                    style.id = 'confettiStyle';
+                    style.textContent = `
+                        @keyframes confettiFall {
+                            to {
+                                transform: translateY(100vh) rotate(360deg);
+                                opacity: 0;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+
+            // Toggle menu
+            toggleMenu(show) {
+                const overlay = document.getElementById('menuOverlay');
+                if (show) {
+                    overlay.classList.add('active');
+                } else {
+                    overlay.classList.remove('active');
+                }
+            }
+
+            // Update button states
+            updateButtons(canUndo, canRedo, canAddTube) {
+                document.getElementById('undoBtn').disabled = !canUndo;
+                document.getElementById('redoBtn').disabled = !canRedo;
+                document.getElementById('addTubeBtn').disabled = !canAddTube;
+            }
+
+            // Highlight hint
+            highlightHint(fromIndex, toIndex) {
+                const fromTube = document.querySelector(`[data-index="${fromIndex}"]`);
+                const toTube = document.querySelector(`[data-index="${toIndex}"]`);
+
+                if (fromTube && toTube) {
+                    fromTube.style.border = '3px solid var(--warning)';
+                    toTube.style.border = '3px solid var(--success)';
+
+                    setTimeout(() => {
+                        fromTube.style.border = '';
+                        toTube.style.border = '';
+                    }, 2000);
+                }
+            }
+
+            // Update statistics in menu
+            updateStatsDisplay(stats) {
+                document.getElementById('totalGamesPlayed').textContent = stats.gamesPlayed;
+                document.getElementById('totalWins').textContent = stats.wins;
+                document.getElementById('bestTime').textContent = stats.bestTime ? this.formatTime(stats.bestTime) : '--:--';
+                document.getElementById('avgMoves').textContent = stats.avgMoves || 0;
+            }
+        }
+
+        // ==================== APP MANAGER ====================
+        class AppManager {
+            constructor() {
+                this.engine = new SortingEngine();
+                this.ui = new UIController();
+                
+                this.moveHistory = [];
+                this.redoStack = [];
+                this.currentLevel = 1;
+                this.moves = 0;
+                this.time = 0;
+                this.timerInterval = null;
+                
+                this.settings = {
+                    vibration: true,
+                    sound: true,
+                    theme: 'dark'
+                };
+                
+                this.stats = {
+                    gamesPlayed: 0,
+                    wins: 0,
+                    bestTime: null,
+                    totalMoves: 0,
+                    avgMoves: 0
+                };
+
+                this.init();
+            }
+
+            // Initialize app
+            init() {
+                this.loadSettings();
+                this.loadStats();
+                this.registerServiceWorker();
+                this.setupEventListeners();
+                this.startNewGame('medium');
+            }
+
+            // Setup all event listeners
+            setupEventListeners() {
+                // Header buttons
+                document.getElementById('menuBtn').addEventListener('click', () => {
+                    this.ui.toggleMenu(true);
+                });
+
+                document.getElementById('closeMenuBtn').addEventListener('click', () => {
+                    this.ui.toggleMenu(false);
+                });
+
+                document.getElementById('undoBtn').addEventListener('click', () => this.undo());
+                document.getElementById('redoBtn').addEventListener('click', () => this.redo());
+
+                // Control buttons
+                document.getElementById('restartBtn').addEventListener('click', () => this.restart());
+                document.getElementById('hintBtn').addEventListener('click', () => this.showHint());
+                document.getElementById('addTubeBtn').addEventListener('click', () => this.addTube());
+
+                // Difficulty buttons
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const difficulty = btn.dataset.difficulty;
+                        this.startNewGame(difficulty);
+                        this.ui.toggleMenu(false);
+                    });
+                });
+
+                // Settings toggles
+                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+                document.getElementById('vibrationToggle').addEventListener('click', () => this.toggleVibration());
+                document.getElementById('soundToggle').addEventListener('click', () => this.toggleSound());
+
+                // Win screen buttons
+                document.getElementById('winNextBtn').addEventListener('click', () => {
+                    this.ui.hideWinScreen();
+                    this.startNewGame(this.engine.difficulty);
+                });
+
+                document.getElementById('winMenuBtn').addEventListener('click', () => {
+                    this.ui.hideWinScreen();
+                    this.ui.toggleMenu(true);
+                });
+
+                // Tube clicks (delegated)
+                document.getElementById('tubesGrid').addEventListener('click', (e) => {
+                    const tube = e.target.closest('.tube');
+                    if (tube && !this.ui.animating) {
+                        const index = parseInt(tube.dataset.index);
+                        this.handleTubeClick(index);
+                    }
+                });
+
+                // Version badge click
+                document.getElementById('versionBadge').addEventListener('click', () => {
+                    this.showResetDialog();
+                });
+
+                // Reset data button
+                document.getElementById('resetDataBtn').addEventListener('click', () => {
+                    this.showResetDialog();
+                });
+            }
+
+            // Handle tube click
+            handleTubeClick(index) {
+                if (this.ui.selectedTubeIndex === null) {
+                    // First click - select
+                    if (this.engine.tubes[index].length > 0) {
+                        this.ui.selectTube(index);
+                        this.vibrate(10);
+                    }
+                } else if (this.ui.selectedTubeIndex === index) {
+                    // Click same tube - deselect
+                    this.ui.deselectTube();
+                    this.vibrate(10);
+                } else {
+                    // Second click - attempt move
+                    this.attemptMove(this.ui.selectedTubeIndex, index);
+                }
+            }
+
+            // Attempt to make a move
+            attemptMove(fromIndex, toIndex) {
+                if (this.engine.isValidMove(fromIndex, toIndex)) {
+                    this.ui.animateMove(fromIndex, toIndex, () => {
+                        // Save state for undo
+                        this.moveHistory.push(this.engine.getState());
+                        this.redoStack = [];
+
+                        // Perform move
+                        const result = this.engine.performMove(fromIndex, toIndex);
+                        this.moves++;
+
+                        // Update UI
+                        this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                        this.ui.deselectTube();
+                        this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                        this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
+
+                        this.vibrate(20);
+                        this.saveGameState();
+
+                        // Check win
+                        if (this.engine.isSolved()) {
+                            this.handleWin();
+                        }
+                    });
+                } else {
+                    // Invalid move
+                    this.ui.showInvalidMove(toIndex);
+                    this.ui.showToast('מהלך לא חוקי!', 'error');
+                    this.ui.deselectTube();
+                    this.vibrate(50);
+                }
+            }
+
+            // Undo last move
+            undo() {
+                if (this.moveHistory.length > 0) {
+                    this.redoStack.push(this.engine.getState());
+                    const prevState = this.moveHistory.pop();
+                    this.engine.loadState(prevState);
+                    this.moves--;
+                    
+                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
+                    this.ui.deselectTube();
+                    this.vibrate(15);
+                    this.saveGameState();
+                }
+            }
+
+            // Redo move
+            redo() {
+                if (this.redoStack.length > 0) {
+                    this.moveHistory.push(this.engine.getState());
+                    const nextState = this.redoStack.pop();
+                    this.engine.loadState(nextState);
+                    this.moves++;
+                    
+                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
+                    this.vibrate(15);
+                    this.saveGameState();
+                }
+            }
+
+            // Restart current level
+            restart() {
+                if (this.moveHistory.length > 0) {
+                    const initialState = this.moveHistory[0];
+                    this.engine.loadState(initialState);
+                    this.moves = 0;
+                    this.moveHistory = [];
+                    this.redoStack = [];
+                    
+                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                    this.ui.updateButtons(false, false, this.engine.addedTubes < 2);
+                    this.ui.deselectTube();
+                    this.ui.showToast('המשחק אופס', 'info');
+                    this.vibrate(20);
+                    this.saveGameState();
+                }
+            }
+
+            // Show hint
+            showHint() {
+                const hint = this.engine.getHint();
+                if (hint) {
+                    this.ui.highlightHint(hint.from, hint.to);
+                    this.ui.showToast('הרמז מוצג על הלוח', 'success');
+                    this.vibrate(15);
+                } else {
+                    this.ui.showToast('אין רמזים זמינים', 'info');
+                }
+            }
+
+            // Add extra tube
+            addTube() {
+                if (this.engine.addTube()) {
+                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
+                    this.ui.showToast('מבחנה נוספה!', 'success');
+                    this.vibrate(20);
+                    this.saveGameState();
+                } else {
+                    this.ui.showToast('לא ניתן להוסיף יותר מבחנות', 'error');
+                }
+            }
+
+            // Start new game
+            startNewGame(difficulty) {
+                // Stop timer
+                if (this.timerInterval) clearInterval(this.timerInterval);
+
+                // Generate level
+                this.engine.generateLevel(difficulty);
+                this.moves = 0;
+                this.time = 0;
+                this.moveHistory = [];
+                this.redoStack = [];
+                this.currentLevel++;
+
+                // Save initial state
+                this.moveHistory.push(this.engine.getState());
+
+                // Render
+                this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                this.ui.updateButtons(false, false, this.engine.addedTubes < 2);
+                this.ui.deselectTube();
+
+                // Start timer
+                this.startTimer();
+                this.saveGameState();
+
+                // Update stats
+                this.stats.gamesPlayed++;
+                this.saveStats();
+            }
+
+            // Start timer
+            startTimer() {
+                this.timerInterval = setInterval(() => {
+                    this.time++;
+                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                }, 1000);
+            }
+
+            // Handle win
+            handleWin() {
+                // Stop timer
+                if (this.timerInterval) clearInterval(this.timerInterval);
+
+                // Calculate stars (based on moves)
+                const minMoves = this.engine.numColors * 2;
+                let stars = 3;
+                if (this.moves > minMoves * 1.5) stars = 2;
+                if (this.moves > minMoves * 2) stars = 1;
+
+                // Update stats
+                this.stats.wins++;
+                this.stats.totalMoves += this.moves;
+                this.stats.avgMoves = Math.round(this.stats.totalMoves / this.stats.wins);
+                if (!this.stats.bestTime || this.time < this.stats.bestTime) {
+                    this.stats.bestTime = this.time;
+                }
+                this.saveStats();
+
+                // Show win screen
+                setTimeout(() => {
+                    this.ui.showWinScreen(this.moves, this.time, stars);
+                    this.vibrate([50, 100, 50, 100, 50]);
+                }, 500);
+            }
+
+            // Settings
+            toggleTheme() {
+                const toggle = document.getElementById('themeToggle');
+                toggle.classList.toggle('active');
+                this.settings.theme = toggle.classList.contains('active') ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', this.settings.theme);
+                this.saveSettings();
+            }
+
+            toggleVibration() {
+                const toggle = document.getElementById('vibrationToggle');
+                toggle.classList.toggle('active');
+                this.settings.vibration = toggle.classList.contains('active');
+                this.saveSettings();
+            }
+
+            toggleSound() {
+                const toggle = document.getElementById('soundToggle');
+                toggle.classList.toggle('active');
+                this.settings.sound = toggle.classList.contains('active');
+                this.saveSettings();
+            }
+
+            // Vibration
+            vibrate(pattern) {
+                if (this.settings.vibration && navigator.vibrate) {
+                    navigator.vibrate(pattern);
+                }
+            }
+
+            // Reset dialog
+            showResetDialog() {
+                const dialog = document.createElement('div');
+                dialog.className = 'reset-modal';
+                dialog.innerHTML = `
+                    <h3 class="reset-modal-title">מחיקת נתונים</h3>
+                    <p class="reset-modal-text">האם אתה בטוח שברצונך למחוק את כל נתוני האפליקציה? פעולה זו תמחק את כל ההתקדמות, הסטטיסטיקות וההגדרות שלך.</p>
+                    <div class="reset-modal-buttons">
+                        <button class="reset-modal-btn cancel">ביטול</button>
+                        <button class="reset-modal-btn danger">מחק הכל</button>
+                    </div>
+                `;
+
+                document.body.appendChild(dialog);
+
+                dialog.querySelector('.cancel').addEventListener('click', () => {
+                    dialog.remove();
+                });
+
+                dialog.querySelector('.danger').addEventListener('click', () => {
+                    this.resetAllData();
+                    dialog.remove();
+                });
+            }
+
+            // Reset all data
+            async resetAllData() {
+                // Clear localStorage
+                localStorage.clear();
+
+                // Unregister service worker
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+
+                // Clear caches
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+
+                this.ui.showToast('כל הנתונים נמחקו. האפליקציה תטען מחדש...', 'success');
+                
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 2000);
+            }
+
+            // Persistence
+            saveGameState() {
+                const state = {
+                    engine: this.engine.getState(),
+                    moves: this.moves,
+                    time: this.time,
+                    level: this.currentLevel,
+                    moveHistory: this.moveHistory,
+                    redoStack: this.redoStack
+                };
+                localStorage.setItem('gameState', JSON.stringify(state));
+            }
+
+            loadGameState() {
+                const saved = localStorage.getItem('gameState');
+                if (saved) {
+                    try {
+                        const state = JSON.parse(saved);
+                        this.engine.loadState(state.engine);
+                        this.moves = state.moves;
+                        this.time = state.time;
+                        this.currentLevel = state.level;
+                        this.moveHistory = state.moveHistory || [];
+                        this.redoStack = state.redoStack || [];
+                        
+                        this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
+                        this.ui.updateStats(this.moves, this.time, this.currentLevel);
+                        this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
+                        
+                        if (!this.engine.isSolved()) {
+                            this.startTimer();
+                        }
+                        
+                        return true;
+                    } catch (e) {
+                        console.error('Failed to load game state:', e);
+                    }
+                }
+                return false;
+            }
+
+            saveSettings() {
+                localStorage.setItem('settings', JSON.stringify(this.settings));
+            }
+
+            loadSettings() {
+                const saved = localStorage.getItem('settings');
+                if (saved) {
+                    try {
+                        this.settings = JSON.parse(saved);
+                        
+                        // Apply theme
+                        document.documentElement.setAttribute('data-theme', this.settings.theme);
+                        if (this.settings.theme === 'dark') {
+                            document.getElementById('themeToggle').classList.add('active');
+                        }
+
+                        // Apply vibration
+                        if (this.settings.vibration) {
+                            document.getElementById('vibrationToggle').classList.add('active');
+                        } else {
+                            document.getElementById('vibrationToggle').classList.remove('active');
+                        }
+
+                        // Apply sound
+                        if (this.settings.sound) {
+                            document.getElementById('soundToggle').classList.add('active');
+                        } else {
+                            document.getElementById('soundToggle').classList.remove('active');
+                        }
+                    } catch (e) {
+                        console.error('Failed to load settings:', e);
+                    }
+                }
+            }
+
+            saveStats() {
+                localStorage.setItem('stats', JSON.stringify(this.stats));
+                this.ui.updateStatsDisplay(this.stats);
+            }
+
+            loadStats() {
+                const saved = localStorage.getItem('stats');
+                if (saved) {
+                    try {
+                        this.stats = JSON.parse(saved);
+                        this.ui.updateStatsDisplay(this.stats);
+                    } catch (e) {
+                        console.error('Failed to load stats:', e);
+                    }
+                }
+            }
+
+            // Service Worker
+            async registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const registration = await navigator.serviceWorker.register('./sw.js');
+                        console.log('Service Worker registered:', registration);
+                    } catch (error) {
+                        console.error('Service Worker registration failed:', error);
+                    }
+                }
+            }
+        }
+
+        // ==================== INITIALIZE APP ====================
+        let app;
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new AppManager();
+            
+            // Check URL parameters for shortcuts
+            const urlParams = new URLSearchParams(window.location.search);
+            const difficulty = urlParams.get('difficulty');
+            
+            if (difficulty && ['easy', 'medium', 'hard', 'expert'].includes(difficulty)) {
+                // Start new game with specified difficulty
+                app.startNewGame(difficulty);
+            } else {
+                // Try to load saved game state
+                if (!app.loadGameState()) {
+                    // No saved state, start new game
+                    app.startNewGame('medium');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
