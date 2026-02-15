@@ -30,16 +30,16 @@
             --overlay-bg: rgba(15, 23, 42, 0.95);
             
             /* Game Colors */
-            --color-1: #ef4444;
-            --color-2: #3b82f6;
-            --color-3: #10b981;
-            --color-4: #f59e0b;
-            --color-5: #8b5cf6;
-            --color-6: #ec4899;
-            --color-7: #06b6d4;
-            --color-8: #f97316;
-            --color-9: #84cc16;
-            --color-10: #a855f7;
+            --color-1: #ef4444;   /* Red - bright red */
+            --color-2: #3b82f6;   /* Blue - bright blue */
+            --color-3: #10b981;   /* Green - emerald */
+            --color-4: #fbbf24;   /* Yellow - amber (changed from orange) */
+            --color-5: #8b5cf6;   /* Purple - violet */
+            --color-6: #ec4899;   /* Pink - hot pink */
+            --color-7: #06b6d4;   /* Cyan - bright cyan */
+            --color-8: #f97316;   /* Orange - true orange */
+            --color-9: #84cc16;   /* Lime - bright lime */
+            --color-10: #6366f1;  /* Indigo - changed from second purple */
         }
 
         [data-theme="light"] {
@@ -289,6 +289,9 @@
             position: relative;
             min-height: 20px;
             box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .color-segment::before {
@@ -303,17 +306,50 @@
             filter: blur(4px);
         }
 
+        .color-segment::after {
+            content: attr(data-icon);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
         /* Color classes */
         .color-1 { background: var(--color-1); }
+        .color-1::after { content: '●'; }
+        
         .color-2 { background: var(--color-2); }
+        .color-2::after { content: '■'; }
+        
         .color-3 { background: var(--color-3); }
+        .color-3::after { content: '▲'; }
+        
         .color-4 { background: var(--color-4); }
+        .color-4::after { content: '★'; }
+        
         .color-5 { background: var(--color-5); }
+        .color-5::after { content: '◆'; }
+        
         .color-6 { background: var(--color-6); }
+        .color-6::after { content: '♥'; }
+        
         .color-7 { background: var(--color-7); }
+        .color-7::after { content: '✚'; }
+        
         .color-8 { background: var(--color-8); }
+        .color-8::after { content: '✦'; }
+        
         .color-9 { background: var(--color-9); }
+        .color-9::after { content: '◉'; }
+        
         .color-10 { background: var(--color-10); }
+        .color-10::after { content: '◈'; }
+
+        /* Hide icons when disabled */
+        body.no-icons .color-segment::after {
+            display: none;
+        }
 
         /* ==================== CONTROLS ==================== */
         .controls-bar {
@@ -763,6 +799,161 @@
             display: none !important;
         }
 
+        /* ==================== WELCOME SCREEN ==================== */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .welcome-screen.hidden {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .welcome-logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .welcome-btn {
+            padding: 18px 32px;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .welcome-btn.primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .welcome-btn.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .difficulty-selector {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .difficulty-selector-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .difficulty-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .difficulty-option {
+            padding: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            backdrop-filter: blur(5px);
+        }
+
+        .difficulty-option:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        .difficulty-option.easy { border-color: rgba(16, 185, 129, 0.6); }
+        .difficulty-option.medium { border-color: rgba(245, 158, 11, 0.6); }
+        .difficulty-option.hard { border-color: rgba(249, 115, 22, 0.6); }
+        .difficulty-option.expert { border-color: rgba(239, 68, 68, 0.6); }
+
         /* Reset Dialog Modal */
         .reset-modal {
             position: fixed;
@@ -818,12 +1009,40 @@
     </style>
 </head>
 <body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <img src="logo.png" alt="Color Sort Logo" class="welcome-logo">
+        <h1 class="welcome-title">Color Sort Puzzle</h1>
+        <p class="welcome-subtitle">Addictive sorting game</p>
+        
+        <div class="welcome-buttons">
+            <button class="welcome-btn primary" id="continueGameBtn" style="display: none;">
+                <span>▶️</span>
+                <span>Continue Game</span>
+            </button>
+            <button class="welcome-btn secondary" id="newGameBtn">
+                <span>🎮</span>
+                <span>New Game</span>
+            </button>
+        </div>
+
+        <div class="difficulty-selector" id="difficultySelector" style="display: none;">
+            <h3 class="difficulty-selector-title">Choose Difficulty</h3>
+            <div class="difficulty-options">
+                <button class="difficulty-option easy" data-difficulty="easy">Easy 🟢</button>
+                <button class="difficulty-option medium" data-difficulty="medium">Medium 🟡</button>
+                <button class="difficulty-option hard" data-difficulty="hard">Hard 🟠</button>
+                <button class="difficulty-option expert" data-difficulty="expert">Expert 🔴</button>
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
                 <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-                <div class="version-badge" id="versionBadge">v1.2.0</div>
+                <div class="version-badge" id="versionBadge">v1.3.1</div>
             </div>
             <div class="header-center">
                 <h1 class="game-title">Color Sort</h1>
@@ -886,6 +1105,12 @@
                 <div class="settings-item">
                     <span>Dark Mode</span>
                     <div class="toggle-switch" id="themeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <span>Color Icons</span>
+                    <div class="toggle-switch active" id="iconsToggle">
                         <div class="toggle-slider"></div>
                     </div>
                 </div>
@@ -1453,7 +1678,8 @@
                 this.settings = {
                     vibration: true,
                     sound: true,
-                    theme: 'dark'
+                    theme: 'dark',
+                    icons: true
                 };
                 
                 this.stats = {
@@ -1473,7 +1699,84 @@
                 this.loadStats();
                 this.registerServiceWorker();
                 this.setupEventListeners();
-                this.startNewGame('medium');
+                this.showWelcomeScreen();
+            }
+
+            // Show welcome screen
+            showWelcomeScreen() {
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                const continueBtn = document.getElementById('continueGameBtn');
+                const newGameBtn = document.getElementById('newGameBtn');
+                const difficultySelector = document.getElementById('difficultySelector');
+
+                // Check if there's a saved game
+                const savedGame = localStorage.getItem('gameState');
+                const hasSavedGame = savedGame && !this.isGameCompleted(savedGame);
+
+                if (hasSavedGame) {
+                    continueBtn.style.display = 'flex';
+                }
+
+                // Continue game button
+                continueBtn.addEventListener('click', () => {
+                    this.hideWelcomeScreen();
+                    if (this.loadGameState()) {
+                        this.startTimer();
+                    } else {
+                        this.startNewGame('medium');
+                    }
+                });
+
+                // New game button
+                let difficultyShown = false;
+                newGameBtn.addEventListener('click', () => {
+                    if (!difficultyShown) {
+                        difficultySelector.style.display = 'block';
+                        newGameBtn.innerHTML = '<span>←</span><span>Back</span>';
+                        difficultyShown = true;
+                    } else {
+                        difficultySelector.style.display = 'none';
+                        newGameBtn.innerHTML = '<span>🎮</span><span>New Game</span>';
+                        difficultyShown = false;
+                    }
+                });
+
+                // Difficulty options
+                document.querySelectorAll('.difficulty-option').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const difficulty = btn.dataset.difficulty;
+                        this.hideWelcomeScreen();
+                        this.startNewGame(difficulty);
+                    });
+                });
+            }
+
+            // Hide welcome screen with animation
+            hideWelcomeScreen() {
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                welcomeScreen.classList.add('hidden');
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                }, 300);
+            }
+
+            // Check if saved game is completed
+            isGameCompleted(savedGameJson) {
+                try {
+                    const state = JSON.parse(savedGameJson);
+                    if (!state.engine || !state.engine.tubes) return true;
+                    
+                    // Check if all tubes are either empty or completed
+                    for (const tube of state.engine.tubes) {
+                        if (tube.length === 0) continue;
+                        if (tube.length !== state.engine.tubeCapacity) return false;
+                        const firstColor = tube[0];
+                        if (!tube.every(c => c === firstColor)) return false;
+                    }
+                    return true;
+                } catch {
+                    return true;
+                }
             }
 
             // Setup all event listeners
@@ -1506,6 +1809,7 @@
 
                 // Settings toggles
                 document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+                document.getElementById('iconsToggle').addEventListener('click', () => this.toggleIcons());
                 document.getElementById('vibrationToggle').addEventListener('click', () => this.toggleVibration());
                 document.getElementById('soundToggle').addEventListener('click', () => this.toggleSound());
 
@@ -1759,6 +2063,20 @@
                 this.saveSettings();
             }
 
+            toggleIcons() {
+                const toggle = document.getElementById('iconsToggle');
+                toggle.classList.toggle('active');
+                this.settings.icons = toggle.classList.contains('active');
+                
+                if (this.settings.icons) {
+                    document.body.classList.remove('no-icons');
+                } else {
+                    document.body.classList.add('no-icons');
+                }
+                
+                this.saveSettings();
+            }
+
             // Vibration
             vibrate(pattern) {
                 if (this.settings.vibration && navigator.vibrate) {
@@ -1874,6 +2192,15 @@
                             document.getElementById('themeToggle').classList.add('active');
                         }
 
+                        // Apply icons
+                        if (this.settings.icons !== false) {
+                            document.getElementById('iconsToggle').classList.add('active');
+                            document.body.classList.remove('no-icons');
+                        } else {
+                            document.getElementById('iconsToggle').classList.remove('active');
+                            document.body.classList.add('no-icons');
+                        }
+
                         // Apply vibration
                         if (this.settings.vibration) {
                             document.getElementById('vibrationToggle').classList.add('active');
@@ -1928,20 +2255,16 @@
         window.addEventListener('DOMContentLoaded', () => {
             app = new AppManager();
             
-            // Check URL parameters for shortcuts
+            // Check URL parameters for shortcuts (skip welcome screen)
             const urlParams = new URLSearchParams(window.location.search);
             const difficulty = urlParams.get('difficulty');
             
             if (difficulty && ['easy', 'medium', 'hard', 'expert'].includes(difficulty)) {
-                // Start new game with specified difficulty
+                // Direct start from shortcut - hide welcome screen
+                document.getElementById('welcomeScreen').style.display = 'none';
                 app.startNewGame(difficulty);
-            } else {
-                // Try to load saved game state
-                if (!app.loadGameState()) {
-                    // No saved state, start new game
-                    app.startNewGame('medium');
-                }
             }
+            // Otherwise welcome screen is shown by init()
         });
     </script>
 </body>
