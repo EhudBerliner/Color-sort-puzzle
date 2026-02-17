@@ -1,5 +1,5 @@
 {
-  "name": "Color Sort Puzzle - Addictive Sorting Game",
+  "name": "Color Sort Puzzle",
   "short_name": "Color Sort",
   "description": "Addictive and challenging color sorting puzzle game",
   "start_url": "./",
@@ -11,48 +11,14 @@
   "lang": "en",
   "categories": ["games", "entertainment"],
   "icons": [
-    {
-      "src": "logo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
   "shortcuts": [
-    {
-      "name": "Easy Game",
-      "short_name": "Easy",
-      "description": "Start an easy difficulty game",
-      "url": "./?difficulty=easy",
-      "icons": [{ "src": "logo.png", "sizes": "512x512" }]
-    },
-    {
-      "name": "Medium Game",
-      "short_name": "Medium",
-      "description": "Start a medium difficulty game",
-      "url": "./?difficulty=medium",
-      "icons": [{ "src": "logo.png", "sizes": "512x512" }]
-    },
-    {
-      "name": "Hard Game",
-      "short_name": "Hard",
-      "description": "Start a hard difficulty game",
-      "url": "./?difficulty=hard",
-      "icons": [{ "src": "logo.png", "sizes": "512x512" }]
-    },
-    {
-      "name": "Expert Game",
-      "short_name": "Expert",
-      "description": "Start an expert difficulty game",
-      "url": "./?difficulty=expert",
-      "icons": [{ "src": "logo.png", "sizes": "512x512" }]
-    }
+    { "name": "Easy Game",   "short_name": "Easy",   "url": "./?difficulty=easy",   "icons": [{ "src": "logo.png", "sizes": "512x512" }] },
+    { "name": "Medium Game", "short_name": "Medium", "url": "./?difficulty=medium", "icons": [{ "src": "logo.png", "sizes": "512x512" }] },
+    { "name": "Hard Game",   "short_name": "Hard",   "url": "./?difficulty=hard",   "icons": [{ "src": "logo.png", "sizes": "512x512" }] },
+    { "name": "Expert Game", "short_name": "Expert", "url": "./?difficulty=expert", "icons": [{ "src": "logo.png", "sizes": "512x512" }] }
   ],
   "screenshots": [
     {

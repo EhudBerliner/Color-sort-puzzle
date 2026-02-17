@@ -1,82 +1,68 @@
-const CACHE_NAME = 'color-sort-v1.3.1';
+const CACHE_NAME = 'color-sort-v2.0.0';
+const APP_VERSION = '2.0.0';
+
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './logo.png'
+  './logo.png',
+  './version.json'
 ];
 
-// Install event - cache resources
+// Install — cache all assets immediately
 self.addEventListener('install', event => {
-  console.log('[Service Worker] Installing...');
-  
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('[Service Worker] Caching app shell');
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
       .then(() => self.skipWaiting())
   );
 });
 
-// Activate event - clean up old caches
+// Activate — delete ALL old caches
 self.addEventListener('activate', event => {
-  console.log('[Service Worker] Activating...');
-  
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('[Service Worker] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys()
+      .then(names => Promise.all(
+        names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n))
+      ))
+      .then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch — cache-first, network fallback; cache new responses
 self.addEventListener('fetch', event => {
+  // Skip non-GET and cross-origin
+  if (event.request.method !== 'GET') return;
+  // Skip version.json — always network so update check works
+  if (event.request.url.includes('version.json')) {
+    event.respondWith(
+      fetch(event.request).catch(() => new Response('{}', { headers: { 'Content-Type': 'application/json' } }))
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(response => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        }).catch(() => {
-          // Network failed, try to return cached fallback
-          return caches.match('./index.html');
-        });
-      })
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request.clone()).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') return response;
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+        return response;
+      }).catch(() => caches.match('./index.html'));
+    })
   );
 });
 
-// Handle messages from the main app
+// Messages from app
 self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+  if (event.data?.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  // Notify all clients of the current SW version
+  if (event.data?.type === 'GET_VERSION') {
+    event.source?.postMessage({ type: 'SW_VERSION', version: APP_VERSION });
+  }
 });
+
+// Periodic background sync fallback (poll for updates every 5 min via setInterval in client)

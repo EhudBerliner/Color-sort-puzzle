@@ -9,1024 +9,221 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
-    
     <style>
-        /* ==================== CSS VARIABLES ==================== */
         :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-tertiary: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --tube-bg: rgba(255, 255, 255, 0.05);
-            --tube-border: rgba(255, 255, 255, 0.1);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --overlay-bg: rgba(15, 23, 42, 0.95);
-            
-            /* Game Colors */
-            --color-1: #ef4444;   /* Red - bright red */
-            --color-2: #3b82f6;   /* Blue - bright blue */
-            --color-3: #10b981;   /* Green - emerald */
-            --color-4: #fbbf24;   /* Yellow - amber (changed from orange) */
-            --color-5: #8b5cf6;   /* Purple - violet */
-            --color-6: #ec4899;   /* Pink - hot pink */
-            --color-7: #06b6d4;   /* Cyan - bright cyan */
-            --color-8: #f97316;   /* Orange - true orange */
-            --color-9: #84cc16;   /* Lime - bright lime */
-            --color-10: #6366f1;  /* Indigo - changed from second purple */
+            --bg-primary:#0f172a; --bg-secondary:#1e293b; --bg-tertiary:#334155;
+            --text-primary:#f1f5f9; --text-secondary:#cbd5e1; --text-muted:#94a3b8;
+            --accent:#6366f1; --accent-hover:#4f46e5; --success:#10b981;
+            --warning:#f59e0b; --danger:#ef4444;
+            --tube-bg:rgba(255,255,255,0.05); --tube-border:rgba(255,255,255,0.1);
+            --shadow:rgba(0,0,0,0.3); --overlay-bg:rgba(15,23,42,0.95);
+            --color-1:#ef4444; --color-2:#3b82f6; --color-3:#10b981;
+            --color-4:#fbbf24; --color-5:#8b5cf6; --color-6:#ec4899;
+            --color-7:#06b6d4; --color-8:#f97316; --color-9:#84cc16; --color-10:#6366f1;
         }
-
         [data-theme="light"] {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --accent: #6366f1;
-            --accent-hover: #4f46e5;
-            --tube-bg: rgba(0, 0, 0, 0.03);
-            --tube-border: rgba(0, 0, 0, 0.1);
-            --shadow: rgba(0, 0, 0, 0.1);
-            --overlay-bg: rgba(248, 250, 252, 0.98);
-        }
-
-        /* ==================== BASE STYLES ==================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            touch-action: none;
-        }
-
-        /* ==================== LAYOUT ==================== */
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            height: 100dvh;
-            width: 100%;
-            position: relative;
-        }
-
-        /* ==================== HEADER ==================== */
-        .header {
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px var(--shadow);
-            z-index: 100;
-            position: relative;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .menu-btn:hover {
-            background: var(--bg-tertiary);
-        }
-
-        .version-badge {
-            background: var(--accent);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .version-badge:hover {
-            background: var(--accent-hover);
-            transform: scale(1.05);
-        }
-
-        .header-center {
-            flex: 1;
-            text-align: center;
-        }
-
-        .game-title {
-            font-size: 20px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--color-5));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header-right {
-            display: flex;
-            gap: 8px;
-        }
-
-        .icon-btn {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .icon-btn:hover {
-            background: var(--accent);
-            transform: scale(1.05);
-        }
-
-        .icon-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        /* ==================== STATS BAR ==================== */
-        .stats-bar {
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-around;
-            gap: 12px;
-            border-top: 1px solid var(--tube-border);
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* ==================== GAME AREA ==================== */
-        .game-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .tubes-grid {
-            display: grid;
-            gap: 16px;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .tubes-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
-        .tubes-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-        .tubes-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
-        .tubes-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
-
-        /* ==================== TUBE STYLES ==================== */
-        .tube {
-            background: var(--tube-bg);
-            border: 2px solid var(--tube-border);
-            border-radius: 12px;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            aspect-ratio: 1 / 1.4;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 4px;
-            min-width: 60px;
-        }
-
-        .tube:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .tube.selected {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
-            animation: pulse 0.6s ease-in-out;
-        }
-
-        .tube.shake {
-            animation: shake 0.3s ease-in-out;
-        }
-
-        .tube.added-tube {
-            border-color: var(--warning);
-            border-style: dashed;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
-        }
-
-        .color-segment {
-            flex: 1;
-            border-radius: 6px;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            min-height: 20px;
-            box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .color-segment::before {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 10%;
-            width: 30%;
-            height: 30%;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            filter: blur(4px);
-        }
-
-        .color-segment::after {
-            content: attr(data-icon);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-
-        /* Color classes */
-        .color-1 { background: var(--color-1); }
-        .color-1::after { content: '●'; }
-        
-        .color-2 { background: var(--color-2); }
-        .color-2::after { content: '■'; }
-        
-        .color-3 { background: var(--color-3); }
-        .color-3::after { content: '▲'; }
-        
-        .color-4 { background: var(--color-4); }
-        .color-4::after { content: '★'; }
-        
-        .color-5 { background: var(--color-5); }
-        .color-5::after { content: '◆'; }
-        
-        .color-6 { background: var(--color-6); }
-        .color-6::after { content: '♥'; }
-        
-        .color-7 { background: var(--color-7); }
-        .color-7::after { content: '✚'; }
-        
-        .color-8 { background: var(--color-8); }
-        .color-8::after { content: '✦'; }
-        
-        .color-9 { background: var(--color-9); }
-        .color-9::after { content: '◉'; }
-        
-        .color-10 { background: var(--color-10); }
-        .color-10::after { content: '◈'; }
-
-        /* Hide icons when disabled */
-        body.no-icons .color-segment::after {
-            display: none;
-        }
-
-        /* ==================== CONTROLS ==================== */
-        .controls-bar {
-            background: var(--bg-secondary);
-            padding: 12px 16px;
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            box-shadow: 0 -2px 8px var(--shadow);
-        }
-
-        .control-btn {
-            flex: 1;
-            max-width: 140px;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-family: inherit;
-        }
-
-        .control-btn.primary {
-            background: var(--accent);
-            color: white;
-        }
-
-        .control-btn.primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        .control-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        .control-btn.secondary:hover {
-            background: var(--tube-border);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* ==================== MENU OVERLAY ==================== */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--overlay-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .menu-overlay.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .menu-content {
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .menu-title {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .close-btn {
-            background: var(--bg-tertiary);
-            border: none;
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .close-btn:hover {
-            background: var(--danger);
-            transform: rotate(90deg);
-        }
-
-        .menu-section {
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .difficulty-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .difficulty-btn {
-            padding: 16px;
-            border: 2px solid var(--tube-border);
-            border-radius: 12px;
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .difficulty-btn:hover {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .difficulty-btn.easy { border-color: var(--success); }
-        .difficulty-btn.medium { border-color: var(--color-4); }
-        .difficulty-btn.hard { border-color: var(--warning); }
-        .difficulty-btn.expert { border-color: var(--danger); }
-
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--tube-border);
-        }
-
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-
-        .toggle-switch {
-            width: 50px;
-            height: 26px;
-            background: var(--bg-tertiary);
-            border-radius: 13px;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .toggle-switch.active {
-            background: var(--accent);
-        }
-
-        .toggle-slider {
-            width: 22px;
-            height: 22px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            transition: transform 0.3s;
-        }
-
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(-24px);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .stat-card {
-            background: var(--bg-tertiary);
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .stat-card-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 4px;
-        }
-
-        .stat-card-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* ==================== WIN MODAL ==================== */
-        .win-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .win-overlay.active {
-            display: flex;
-            opacity: 1;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .win-modal {
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes scaleIn {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .win-emoji {
-            font-size: 64px;
-            margin-bottom: 16px;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .win-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--success), var(--color-7));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .win-stats {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin: 24px 0;
-        }
-
-        .win-stat {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .win-stat-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .win-stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .stars {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 16px 0;
-            font-size: 36px;
-        }
-
-        .star {
-            color: var(--text-muted);
-            transition: color 0.3s;
-        }
-
-        .star.filled {
-            color: var(--color-4);
-            animation: starPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes starPop {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .win-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .win-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .win-btn.primary {
-            background: var(--accent);
-            color: white;
-        }
-
-        .win-btn.secondary {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        /* ==================== TOAST NOTIFICATIONS ==================== */
-        .toast-container {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            pointer-events: none;
-        }
-
-        .toast {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: 12px 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            animation: slideIn 0.3s ease-out;
-            pointer-events: auto;
-        }
-
-        .toast.error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .toast.success {
-            border-left: 4px solid var(--success);
-        }
-
-        .toast.info {
-            border-left: 4px solid var(--accent);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* ==================== CONFETTI ==================== */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--accent);
-            position: fixed;
-            left: 50%;
-            top: 0;
-            pointer-events: none;
-            z-index: 2500;
-        }
-
-        /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 400px) {
-            .tubes-grid {
-                gap: 12px;
-            }
-            
-            .tube {
-                min-width: 50px;
-            }
-            
-            .control-btn {
-                font-size: 12px;
-                padding: 10px 12px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .tubes-grid {
-                max-width: 600px;
-            }
-        }
-
-        /* ==================== UTILITIES ==================== */
-        .hidden {
-            display: none !important;
-        }
-
-        /* ==================== WELCOME SCREEN ==================== */
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            z-index: 5000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .welcome-screen.hidden {
-            animation: fadeOut 0.3s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        .welcome-logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 24px;
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-title {
-            font-size: 36px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 12px;
-            text-align: center;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .welcome-subtitle {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 48px;
-            text-align: center;
-        }
-
-        .welcome-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .welcome-btn {
-            padding: 18px 32px;
-            border: none;
-            border-radius: 16px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            font-family: inherit;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .welcome-btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .welcome-btn:active {
-            transform: translateY(-2px);
-        }
-
-        .welcome-btn.primary {
-            background: white;
-            color: #667eea;
-        }
-
-        .welcome-btn.secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .difficulty-selector {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 24px;
-        }
-
-        .difficulty-selector-title {
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .difficulty-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .difficulty-option {
-            padding: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            backdrop-filter: blur(5px);
-        }
-
-        .difficulty-option:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: scale(1.05);
-        }
-
-        .difficulty-option.easy { border-color: rgba(16, 185, 129, 0.6); }
-        .difficulty-option.medium { border-color: rgba(245, 158, 11, 0.6); }
-        .difficulty-option.hard { border-color: rgba(249, 115, 22, 0.6); }
-        .difficulty-option.expert { border-color: rgba(239, 68, 68, 0.6); }
-
-        /* Reset Dialog Modal */
-        .reset-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 400px;
-            width: 90%;
-            z-index: 3001;
-            box-shadow: 0 8px 24px var(--shadow);
-        }
-
-        .reset-modal-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .reset-modal-text {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .reset-modal-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .reset-modal-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .reset-modal-btn.danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .reset-modal-btn.cancel {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
+            --bg-primary:#f8fafc; --bg-secondary:#ffffff; --bg-tertiary:#e2e8f0;
+            --text-primary:#0f172a; --text-secondary:#475569; --text-muted:#64748b;
+            --tube-bg:rgba(0,0,0,0.03); --tube-border:rgba(0,0,0,0.1);
+            --shadow:rgba(0,0,0,0.1); --overlay-bg:rgba(248,250,252,0.98);
+        }
+        *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow:hidden;position:fixed;width:100%;height:100vh;height:100dvh;touch-action:manipulation;}
+        body.modal-open{overflow:hidden;}
+        .offline-banner{position:fixed;top:0;left:0;right:0;background:var(--danger);color:white;text-align:center;padding:10px 16px;font-size:14px;font-weight:600;z-index:9999;transform:translateY(-100%);transition:transform 0.3s ease;}
+        .offline-banner.visible{transform:translateY(0);}
+        .install-banner{position:fixed;bottom:0;left:0;right:0;background:var(--bg-secondary);border-top:2px solid var(--accent);padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;z-index:8000;transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);box-shadow:0 -4px 20px var(--shadow);}
+        .install-banner.visible{transform:translateY(0);}
+        .install-banner-icon{font-size:30px;flex-shrink:0;}
+        .install-banner-text{flex:1;}
+        .install-banner-title{font-weight:700;font-size:15px;}
+        .install-banner-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+        .install-banner-btns{display:flex;gap:8px;flex-shrink:0;}
+        .install-btn{padding:8px 14px;border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;}
+        .install-btn.primary{background:var(--accent);color:white;}
+        .install-btn.dismiss{background:var(--bg-tertiary);color:var(--text-primary);}
+        .update-prompt{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-secondary);border:2px solid var(--accent);border-radius:16px;padding:14px 18px;display:flex;align-items:center;gap:12px;z-index:8500;box-shadow:0 8px 24px var(--shadow);opacity:0;pointer-events:none;transition:all 0.3s ease;width:92%;max-width:380px;}
+        .update-prompt.visible{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+        .update-prompt-text{flex:1;font-size:14px;font-weight:500;}
+        .update-now-btn{padding:8px 14px;background:var(--accent);color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;}
+        .app-container{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%;position:relative;}
+        .header{background:var(--bg-secondary);padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px var(--shadow);z-index:100;position:relative;}
+        .header-left{display:flex;align-items:center;gap:10px;}
+        .menu-btn{background:none;border:none;color:var(--text-primary);font-size:24px;cursor:pointer;padding:8px;border-radius:8px;transition:background 0.2s;}
+        .menu-btn:hover{background:var(--bg-tertiary);}
+        .version-badge{background:var(--accent);color:white;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.2s;user-select:none;}
+        .version-badge:hover{background:var(--accent-hover);transform:scale(1.05);}
+        .header-center{flex:1;text-align:center;}
+        .game-title{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--color-5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .header-right{display:flex;gap:8px;}
+        .icon-btn{background:var(--bg-tertiary);border:none;color:var(--text-primary);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all 0.2s;}
+        .icon-btn:hover{background:var(--accent);transform:scale(1.05);}
+        .icon-btn:disabled{opacity:0.4;cursor:not-allowed;}
+        .stats-bar{background:var(--bg-secondary);padding:10px 16px;display:flex;justify-content:space-around;gap:12px;border-top:1px solid var(--tube-border);}
+        .stat-item{display:flex;flex-direction:column;align-items:center;gap:2px;}
+        .stat-label{font-size:11px;color:var(--text-muted);font-weight:500;}
+        .stat-value{font-size:18px;font-weight:700;color:var(--text-primary);}
+        .ptr-indicator{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(-60px);background:var(--accent);color:white;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform 0.3s;z-index:50;box-shadow:0 2px 8px var(--shadow);}
+        .ptr-indicator.pulling{transform:translateX(-50%) translateY(10px);}
+        .ptr-indicator.refreshing{transform:translateX(-50%) translateY(10px);animation:spin 0.8s linear infinite;}
+        @keyframes spin{to{transform:translateX(-50%) translateY(10px) rotate(360deg);}}
+        .game-container{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden;position:relative;}
+        .tubes-grid{display:grid;gap:14px;width:100%;max-width:500px;margin:0 auto;}
+        .tubes-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+        .tubes-grid.cols-4{grid-template-columns:repeat(4,1fr);}
+        .tubes-grid.cols-5{grid-template-columns:repeat(5,1fr);}
+        .tubes-grid.cols-6{grid-template-columns:repeat(6,1fr);}
+        .tube{background:var(--tube-bg);border:2px solid var(--tube-border);border-radius:12px;padding:6px;cursor:pointer;transition:all 0.2s;position:relative;aspect-ratio:1/1.4;display:flex;flex-direction:column-reverse;gap:4px;min-width:55px;}
+        .tube:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 4px 12px var(--shadow);}
+        .tube.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.3);animation:pulse 0.6s ease-in-out;}
+        .tube.shake{animation:shake 0.3s ease-in-out;}
+        .tube.added-tube{border-color:var(--warning);border-style:dashed;}
+        .tube.hint-from{border-color:var(--warning)!important;box-shadow:0 0 0 3px rgba(245,158,11,0.4);}
+        .tube.hint-to{border-color:var(--success)!important;box-shadow:0 0 0 3px rgba(16,185,129,0.4);}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+        .color-segment{flex:1;border-radius:6px;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);position:relative;min-height:18px;box-shadow:inset 0 -2px 4px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;}
+        .color-segment::before{content:'';position:absolute;top:4px;left:10%;width:30%;height:30%;background:rgba(255,255,255,0.3);border-radius:50%;filter:blur(4px);}
+        .color-segment::after{color:rgba(255,255,255,0.9);font-size:13px;font-weight:bold;text-shadow:0 1px 2px rgba(0,0,0,0.4);z-index:1;}
+        .color-1{background:var(--color-1);}.color-1::after{content:'●';}
+        .color-2{background:var(--color-2);}.color-2::after{content:'■';}
+        .color-3{background:var(--color-3);}.color-3::after{content:'▲';}
+        .color-4{background:var(--color-4);}.color-4::after{content:'★';}
+        .color-5{background:var(--color-5);}.color-5::after{content:'◆';}
+        .color-6{background:var(--color-6);}.color-6::after{content:'♥';}
+        .color-7{background:var(--color-7);}.color-7::after{content:'✚';}
+        .color-8{background:var(--color-8);}.color-8::after{content:'✦';}
+        .color-9{background:var(--color-9);}.color-9::after{content:'◉';}
+        .color-10{background:var(--color-10);}.color-10::after{content:'◈';}
+        body.no-icons .color-segment::after{display:none;}
+        .controls-bar{background:var(--bg-secondary);padding:10px 16px;padding-bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;justify-content:center;box-shadow:0 -2px 8px var(--shadow);}
+        .control-btn{flex:1;max-width:140px;padding:11px 12px;border:none;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:5px;font-family:inherit;}
+        .control-btn.primary{background:var(--accent);color:white;}
+        .control-btn.primary:hover{background:var(--accent-hover);transform:translateY(-2px);}
+        .control-btn.secondary{background:var(--bg-tertiary);color:var(--text-primary);}
+        .control-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;}
+        .menu-overlay{position:fixed;inset:0;background:var(--overlay-bg);backdrop-filter:blur(10px);z-index:1000;display:none;opacity:0;transition:opacity 0.3s;}
+        .menu-overlay.active{display:flex;opacity:1;}
+        .menu-content{width:100%;max-width:500px;margin:auto;padding:20px;padding-top:calc(20px + env(safe-area-inset-top));overflow-y:auto;}
+        .menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+        .menu-title{font-size:26px;font-weight:700;}
+        .close-btn{background:var(--bg-tertiary);border:none;color:var(--text-primary);width:40px;height:40px;border-radius:50%;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+        .close-btn:hover{background:var(--danger);transform:rotate(90deg);}
+        .menu-section{background:var(--bg-secondary);border-radius:16px;padding:16px;margin-bottom:12px;}
+        .section-title{font-size:16px;font-weight:600;margin-bottom:12px;}
+        .difficulty-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+        .difficulty-btn{padding:13px;border:2px solid var(--tube-border);border-radius:12px;background:var(--bg-tertiary);color:var(--text-primary);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;}
+        .difficulty-btn:hover{border-color:var(--accent);background:var(--accent);color:white;transform:translateY(-2px);}
+        .difficulty-btn.easy{border-color:var(--success);}
+        .difficulty-btn.medium{border-color:var(--color-4);}
+        .difficulty-btn.hard{border-color:var(--warning);}
+        .difficulty-btn.expert{border-color:var(--danger);}
+        .settings-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--tube-border);}
+        .settings-item:last-child{border-bottom:none;}
+        .toggle-switch{width:50px;height:26px;background:var(--bg-tertiary);border-radius:13px;position:relative;cursor:pointer;transition:background 0.3s;}
+        .toggle-switch.active{background:var(--accent);}
+        .toggle-slider{width:22px;height:22px;background:white;border-radius:50%;position:absolute;top:2px;right:2px;transition:transform 0.3s;}
+        .toggle-switch.active .toggle-slider{transform:translateX(-24px);}
+        .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+        .stat-card{background:var(--bg-tertiary);padding:13px;border-radius:12px;text-align:center;}
+        .stat-card-value{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:3px;}
+        .stat-card-label{font-size:12px;color:var(--text-muted);}
+        .win-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:2000;display:none;opacity:0;transition:opacity 0.3s;}
+        .win-overlay.active{display:flex;opacity:1;align-items:center;justify-content:center;}
+        .win-modal{background:var(--bg-secondary);border-radius:24px;padding:28px;max-width:400px;width:90%;text-align:center;animation:scaleIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);}
+        @keyframes scaleIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+        .win-emoji{font-size:60px;margin-bottom:12px;animation:bounce 1s infinite;}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+        .win-title{font-size:28px;font-weight:700;margin-bottom:6px;background:linear-gradient(135deg,var(--success),var(--color-7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .win-stats{display:flex;justify-content:center;gap:24px;margin:18px 0;}
+        .win-stat{display:flex;flex-direction:column;gap:3px;}
+        .win-stat-value{font-size:22px;font-weight:700;color:var(--accent);}
+        .win-stat-label{font-size:12px;color:var(--text-muted);}
+        .stars{display:flex;justify-content:center;gap:8px;margin:12px 0;font-size:32px;}
+        .star{color:var(--text-muted);transition:color 0.3s;}
+        .star.filled{color:var(--color-4);animation:starPop 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);}
+        @keyframes starPop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+        .win-buttons{display:flex;gap:10px;margin-top:18px;}
+        .win-btn{flex:1;padding:12px;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;}
+        .win-btn.primary{background:var(--accent);color:white;}
+        .win-btn.secondary{background:var(--bg-tertiary);color:var(--text-primary);}
+        .toast-container{position:fixed;top:calc(70px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:7000;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:92%;max-width:360px;}
+        .toast{background:var(--bg-secondary);color:var(--text-primary);padding:11px 16px;border-radius:12px;box-shadow:0 4px 12px var(--shadow);display:flex;align-items:center;gap:8px;font-weight:500;animation:toastIn 0.3s ease-out;pointer-events:auto;width:100%;}
+        .toast.error{border-left:4px solid var(--danger);}
+        .toast.success{border-left:4px solid var(--success);}
+        .toast.info{border-left:4px solid var(--accent);}
+        .toast.warning{border-left:4px solid var(--warning);}
+        @keyframes toastIn{from{transform:translateY(-16px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .confetti{position:fixed;width:10px;height:10px;top:0;pointer-events:none;z-index:2500;}
+        @keyframes confettiFall{to{transform:translateY(100vh) rotate(360deg);opacity:0;}}
+        .welcome-screen{position:fixed;inset:0;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);z-index:5000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom));animation:fadeIn 0.5s ease-out;}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .welcome-screen.hiding{animation:fadeOut 0.3s ease-out forwards;}
+        @keyframes fadeOut{from{opacity:1}to{opacity:0}}
+        .welcome-logo{width:110px;height:110px;margin-bottom:18px;border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,0.3);animation:logoFloat 3s ease-in-out infinite;}
+        @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .welcome-title{font-size:32px;font-weight:700;color:white;margin-bottom:8px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,0.3);}
+        .welcome-subtitle{font-size:15px;color:rgba(255,255,255,0.85);margin-bottom:36px;text-align:center;}
+        .welcome-buttons{display:flex;flex-direction:column;gap:14px;width:100%;max-width:400px;}
+        .welcome-btn{padding:16px 28px;border:none;border-radius:16px;font-size:17px;font-weight:600;cursor:pointer;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 12px rgba(0,0,0,0.2);}
+        .welcome-btn:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+        .welcome-btn.primary{background:white;color:#667eea;}
+        .welcome-btn.secondary{background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.3);backdrop-filter:blur(10px);}
+        .difficulty-selector{width:100%;max-width:400px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:16px;padding:16px;margin-top:18px;}
+        .difficulty-selector-title{color:white;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;}
+        .difficulty-options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+        .difficulty-option{padding:13px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;background:rgba(255,255,255,0.1);color:white;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:inherit;}
+        .difficulty-option:hover{background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.6);transform:scale(1.05);}
+        .difficulty-option.easy{border-color:rgba(16,185,129,0.6);}
+        .difficulty-option.medium{border-color:rgba(245,158,11,0.6);}
+        .difficulty-option.hard{border-color:rgba(249,115,22,0.6);}
+        .difficulty-option.expert{border-color:rgba(239,68,68,0.6);}
+        .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:9000;display:none;opacity:0;transition:opacity 0.2s;align-items:center;justify-content:center;}
+        .modal-backdrop.active{display:flex;opacity:1;}
+        .reset-modal{background:var(--bg-secondary);border-radius:20px;padding:22px;max-width:420px;width:92%;box-shadow:0 12px 32px var(--shadow);animation:scaleIn 0.25s ease-out;}
+        .reset-modal-title{font-size:19px;font-weight:700;margin-bottom:8px;}
+        .reset-modal-text{color:var(--text-secondary);margin-bottom:16px;line-height:1.5;font-size:14px;}
+        .reset-checkboxes{margin-bottom:18px;display:flex;flex-direction:column;gap:8px;}
+        .reset-checkbox-item{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 12px;background:var(--bg-tertiary);border-radius:10px;}
+        .reset-checkbox-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+        .reset-checkbox-label{font-size:14px;font-weight:500;}
+        .reset-checkbox-sub{font-size:11px;color:var(--text-muted);margin-top:1px;}
+        .reset-modal-buttons{display:flex;gap:10px;}
+        .reset-modal-btn{flex:1;padding:12px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;font-size:14px;}
+        .reset-modal-btn.danger{background:var(--danger);color:white;}
+        .reset-modal-btn.cancel{background:var(--bg-tertiary);color:var(--text-primary);}
+        @media(max-width:380px){.tubes-grid{gap:10px;}.tube{min-width:48px;}.control-btn{font-size:12px;padding:9px 8px;}}
+        @media(min-width:768px){.tubes-grid{max-width:600px;}}
+        .hidden{display:none!important;}
     </style>
 </head>
 <body>
-    <!-- Welcome Screen -->
+    <div class="offline-banner" id="offlineBanner">📡 No internet connection</div>
+    <div class="install-banner" id="installBanner">
+        <div class="install-banner-icon">📲</div>
+        <div class="install-banner-text">
+            <div class="install-banner-title">Install Color Sort</div>
+            <div class="install-banner-sub">Play offline, quick access from home screen</div>
+        </div>
+        <div class="install-banner-btns">
+            <button class="install-btn primary" id="installAcceptBtn">Install</button>
+            <button class="install-btn dismiss" id="installDismissBtn">✕</button>
+        </div>
+    </div>
+    <div class="update-prompt" id="updatePrompt">
+        <span>🆕</span>
+        <span class="update-prompt-text">New version available!</span>
+        <button class="update-now-btn" id="updateNowBtn">Update Now</button>
+    </div>
     <div class="welcome-screen" id="welcomeScreen">
         <img src="logo.png" alt="Color Sort Logo" class="welcome-logo">
         <h1 class="welcome-title">Color Sort Puzzle</h1>
         <p class="welcome-subtitle">Addictive sorting game</p>
-        
         <div class="welcome-buttons">
-            <button class="welcome-btn primary" id="continueGameBtn" style="display: none;">
-                <span>▶️</span>
-                <span>Continue Game</span>
-            </button>
-            <button class="welcome-btn secondary" id="newGameBtn">
-                <span>🎮</span>
-                <span>New Game</span>
-            </button>
+            <button class="welcome-btn primary" id="continueGameBtn" style="display:none;"><span>▶️</span><span>Continue Game</span></button>
+            <button class="welcome-btn secondary" id="newGameBtn"><span>🎮</span><span>New Game</span></button>
         </div>
-
-        <div class="difficulty-selector" id="difficultySelector" style="display: none;">
+        <div class="difficulty-selector" id="difficultySelector" style="display:none;">
             <h3 class="difficulty-selector-title">Choose Difficulty</h3>
             <div class="difficulty-options">
                 <button class="difficulty-option easy" data-difficulty="easy">Easy 🟢</button>
@@ -1036,60 +233,36 @@
             </div>
         </div>
     </div>
-
     <div class="app-container">
-        <!-- Header -->
         <header class="header">
             <div class="header-left">
                 <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-                <div class="version-badge" id="versionBadge">v1.3.1</div>
+                <div class="version-badge" id="versionBadge">v2.0.0</div>
             </div>
-            <div class="header-center">
-                <h1 class="game-title">Color Sort</h1>
-            </div>
+            <div class="header-center"><h1 class="game-title">Color Sort</h1></div>
             <div class="header-right">
                 <button class="icon-btn" id="undoBtn" aria-label="Undo" disabled>↶</button>
                 <button class="icon-btn" id="redoBtn" aria-label="Redo" disabled>↷</button>
             </div>
         </header>
-
-        <!-- Stats Bar -->
         <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-label">Moves</div>
-                <div class="stat-value" id="movesCount">0</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Time</div>
-                <div class="stat-value" id="timerDisplay">00:00</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-label">Level</div>
-                <div class="stat-value" id="levelDisplay">1</div>
-            </div>
+            <div class="stat-item"><div class="stat-label">Moves</div><div class="stat-value" id="movesCount">0</div></div>
+            <div class="stat-item"><div class="stat-label">Time</div><div class="stat-value" id="timerDisplay">00:00</div></div>
+            <div class="stat-item"><div class="stat-label">Level</div><div class="stat-value" id="levelDisplay">1</div></div>
         </div>
-
-        <!-- Game Area -->
-        <div class="game-container">
+        <div class="game-container" id="gameContainer">
+            <div class="ptr-indicator" id="ptrIndicator">↓</div>
             <div class="tubes-grid" id="tubesGrid"></div>
         </div>
-
-        <!-- Controls -->
         <div class="controls-bar">
             <button class="control-btn secondary" id="restartBtn">🔄 Restart</button>
             <button class="control-btn primary" id="hintBtn">💡 Hint</button>
-            <button class="control-btn secondary" id="addTubeBtn">➕ Add Tube</button>
+            <button class="control-btn secondary" id="addTubeBtn">➕ Tube</button>
         </div>
     </div>
-
-    <!-- Menu Overlay -->
     <div class="menu-overlay" id="menuOverlay">
         <div class="menu-content">
-            <div class="menu-header">
-                <h2 class="menu-title">Menu</h2>
-                <button class="close-btn" id="closeMenuBtn">×</button>
-            </div>
-
+            <div class="menu-header"><h2 class="menu-title">Menu</h2><button class="close-btn" id="closeMenuBtn">×</button></div>
             <div class="menu-section">
                 <h3 class="section-title">New Game</h3>
                 <div class="difficulty-grid">
@@ -1099,84 +272,36 @@
                     <button class="difficulty-btn expert" data-difficulty="expert">Expert 🔴</button>
                 </div>
             </div>
-
             <div class="menu-section">
                 <h3 class="section-title">Settings</h3>
-                <div class="settings-item">
-                    <span>Dark Mode</span>
-                    <div class="toggle-switch" id="themeToggle">
-                        <div class="toggle-slider"></div>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <span>Color Icons</span>
-                    <div class="toggle-switch active" id="iconsToggle">
-                        <div class="toggle-slider"></div>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <span>Vibration</span>
-                    <div class="toggle-switch active" id="vibrationToggle">
-                        <div class="toggle-slider"></div>
-                    </div>
-                </div>
-                <div class="settings-item">
-                    <span>Sound Effects</span>
-                    <div class="toggle-switch active" id="soundToggle">
-                        <div class="toggle-slider"></div>
-                    </div>
-                </div>
+                <div class="settings-item"><span>Dark Mode</span><div class="toggle-switch" id="themeToggle"><div class="toggle-slider"></div></div></div>
+                <div class="settings-item"><span>Color Icons</span><div class="toggle-switch active" id="iconsToggle"><div class="toggle-slider"></div></div></div>
+                <div class="settings-item"><span>Animations</span><div class="toggle-switch active" id="animationsToggle"><div class="toggle-slider"></div></div></div>
+                <div class="settings-item"><span>Vibration</span><div class="toggle-switch active" id="vibrationToggle"><div class="toggle-slider"></div></div></div>
+                <div class="settings-item"><span>Sound Effects</span><div class="toggle-switch active" id="soundToggle"><div class="toggle-slider"></div></div></div>
             </div>
-
             <div class="menu-section">
                 <h3 class="section-title">Statistics</h3>
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="totalGamesPlayed">0</div>
-                        <div class="stat-card-label">Games</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="totalWins">0</div>
-                        <div class="stat-card-label">Wins</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="bestTime">--:--</div>
-                        <div class="stat-card-label">Best Time</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-value" id="avgMoves">0</div>
-                        <div class="stat-card-label">Avg Moves</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-card-value" id="totalGamesPlayed">0</div><div class="stat-card-label">Games</div></div>
+                    <div class="stat-card"><div class="stat-card-value" id="totalWins">0</div><div class="stat-card-label">Wins</div></div>
+                    <div class="stat-card"><div class="stat-card-value" id="bestTime">--:--</div><div class="stat-card-label">Best Time</div></div>
+                    <div class="stat-card"><div class="stat-card-value" id="avgMoves">0</div><div class="stat-card-label">Avg Moves</div></div>
                 </div>
             </div>
-
             <div class="menu-section">
-                <button class="control-btn danger" id="resetDataBtn" style="width: 100%; background: var(--danger); color: white;">
-                    🗑️ Delete All Data
-                </button>
+                <button class="control-btn" id="resetDataBtn" style="width:100%;background:var(--danger);color:white;">🗑️ Reset App Data</button>
             </div>
         </div>
     </div>
-
-    <!-- Win Overlay -->
     <div class="win-overlay" id="winOverlay">
         <div class="win-modal">
             <div class="win-emoji">🎉</div>
             <h2 class="win-title">Excellent!</h2>
-            <div class="stars" id="starsDisplay">
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-                <span class="star">⭐</span>
-            </div>
+            <div class="stars" id="starsDisplay"><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span></div>
             <div class="win-stats">
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winMoves">0</div>
-                    <div class="win-stat-label">Moves</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winTime">00:00</div>
-                    <div class="win-stat-label">Time</div>
-                </div>
+                <div class="win-stat"><div class="win-stat-value" id="winMoves">0</div><div class="win-stat-label">Moves</div></div>
+                <div class="win-stat"><div class="win-stat-value" id="winTime">00:00</div><div class="win-stat-label">Time</div></div>
             </div>
             <div class="win-buttons">
                 <button class="win-btn secondary" id="winMenuBtn">Menu</button>
@@ -1184,1088 +309,441 @@
             </div>
         </div>
     </div>
-
-    <!-- Toast Container -->
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="reset-modal">
+            <h3 class="reset-modal-title">🔧 Reset App</h3>
+            <p class="reset-modal-text">Select what to delete. Unchecked items will be kept.</p>
+            <div class="reset-checkboxes">
+                <label class="reset-checkbox-item"><input type="checkbox" id="resetProgress" checked><div><div class="reset-checkbox-label">Game Progress</div><div class="reset-checkbox-sub">Current puzzle and move history</div></div></label>
+                <label class="reset-checkbox-item"><input type="checkbox" id="resetStats" checked><div><div class="reset-checkbox-label">Statistics</div><div class="reset-checkbox-sub">Wins, best time, average moves</div></div></label>
+                <label class="reset-checkbox-item"><input type="checkbox" id="resetSettings"><div><div class="reset-checkbox-label">Settings</div><div class="reset-checkbox-sub">Theme, vibration, icons preferences</div></div></label>
+                <label class="reset-checkbox-item"><input type="checkbox" id="resetCache"><div><div class="reset-checkbox-label">Cache &amp; Service Worker</div><div class="reset-checkbox-sub">Forces fresh download on reload</div></div></label>
+            </div>
+            <div class="reset-modal-buttons">
+                <button class="reset-modal-btn cancel" id="resetCancelBtn">Cancel</button>
+                <button class="reset-modal-btn danger" id="resetConfirmBtn">Delete Selected</button>
+            </div>
+        </div>
+    </div>
     <div class="toast-container" id="toastContainer"></div>
+<script>
+const APP_VERSION='2.0.0';
 
-    <script>
-        // ==================== SORTING ENGINE ====================
-        class SortingEngine {
-            constructor() {
-                this.tubes = [];
-                this.tubeCapacity = 4;
-                this.numColors = 0;
-                this.numEmptyTubes = 0;
-                this.difficulty = 'medium';
-                this.addedTubes = 0;
-            }
-
-            // Generate a new level based on difficulty
-            generateLevel(difficulty = 'medium') {
-                this.difficulty = difficulty;
-                this.addedTubes = 0;
-
-                // Set parameters based on difficulty
-                const params = {
-                    easy: { colors: 4, empty: 2, capacity: 4 },
-                    medium: { colors: 6, empty: 2, capacity: 4 },
-                    hard: { colors: 8, empty: 2, capacity: 4 },
-                    expert: { colors: 10, empty: 2, capacity: 4 }
-                };
-
-                const config = params[difficulty];
-                this.numColors = config.colors;
-                this.numEmptyTubes = config.empty;
-                this.tubeCapacity = config.capacity;
-
-                // Create SOLVED state first - each tube has one color
-                this.tubes = [];
-                for (let color = 1; color <= this.numColors; color++) {
-                    this.tubes.push(Array(this.tubeCapacity).fill(color));
-                }
-
-                // Add empty tubes
-                for (let i = 0; i < this.numEmptyTubes; i++) {
-                    this.tubes.push([]);
-                }
-
-                // Now perform REVERSE moves (pouring from solved tubes)
-                // This guarantees the puzzle is solvable by reversing the moves
-                const numShuffleMoves = 50 + this.numColors * 10;
-                this.reverseShuffleFromSolved(numShuffleMoves);
-
-                // If by chance we ended up solved, try again
-                if (this.isSolved()) {
-                    return this.generateLevel(difficulty);
-                }
-
-                return this.tubes;
-            }
-
-            // Shuffle by performing random moves from the SOLVED state
-            // This guarantees solvability - we can always reverse the moves
-            reverseShuffleFromSolved(numMoves) {
-                let movesPerformed = 0;
-                let attempts = 0;
-                const maxAttempts = numMoves * 5;
-
-                while (movesPerformed < numMoves && attempts < maxAttempts) {
-                    attempts++;
-
-                    // Pick a random non-empty tube (source)
-                    const fullTubes = [];
-                    for (let i = 0; i < this.tubes.length; i++) {
-                        if (this.tubes[i].length > 0) {
-                            fullTubes.push(i);
-                        }
-                    }
-
-                    if (fullTubes.length === 0) break;
-
-                    const fromIndex = fullTubes[Math.floor(Math.random() * fullTubes.length)];
-                    
-                    // Pick a random target tube (must not be full and not the same)
-                    const possibleTargets = [];
-                    for (let i = 0; i < this.tubes.length; i++) {
-                        if (i !== fromIndex && this.tubes[i].length < this.tubeCapacity) {
-                            possibleTargets.push(i);
-                        }
-                    }
-
-                    if (possibleTargets.length === 0) continue;
-
-                    const toIndex = possibleTargets[Math.floor(Math.random() * possibleTargets.length)];
-
-                    // Perform the move (doesn't need to follow game rules during shuffle)
-                    const fromTube = this.tubes[fromIndex];
-                    const toTube = this.tubes[toIndex];
-
-                    // Move 1-3 colors randomly
-                    const numToMove = Math.min(
-                        Math.floor(Math.random() * 3) + 1,
-                        fromTube.length,
-                        this.tubeCapacity - toTube.length
-                    );
-
-                    for (let i = 0; i < numToMove; i++) {
-                        toTube.push(fromTube.pop());
-                    }
-
-                    movesPerformed++;
-                }
-            }
-
-            // Get all valid moves for current state
-            getAllValidMoves() {
-                const moves = [];
-                for (let from = 0; from < this.tubes.length; from++) {
-                    for (let to = 0; to < this.tubes.length; to++) {
-                        if (from !== to && this.isValidMove(from, to)) {
-                            moves.push({ from, to });
-                        }
-                    }
-                }
-                return moves;
-            }
-
-            // Check if a move is valid
-            isValidMove(fromIndex, toIndex) {
-                const fromTube = this.tubes[fromIndex];
-                const toTube = this.tubes[toIndex];
-
-                // Can't move from empty tube
-                if (fromTube.length === 0) return false;
-
-                // Can't move to full tube
-                if (toTube.length >= this.tubeCapacity) return false;
-
-                // Can move to empty tube
-                if (toTube.length === 0) return true;
-
-                // Can only move to same color
-                const fromColor = fromTube[fromTube.length - 1];
-                const toColor = toTube[toTube.length - 1];
-
-                return fromColor === toColor;
-            }
-
-            // Perform a move
-            performMove(fromIndex, toIndex, silent = false) {
-                if (!this.isValidMove(fromIndex, toIndex)) {
-                    return { success: false, moved: 0 };
-                }
-
-                const fromTube = this.tubes[fromIndex];
-                const toTube = this.tubes[toIndex];
-                const color = fromTube[fromTube.length - 1];
-
-                // Count how many of the same color can be moved
-                let countToMove = 0;
-                for (let i = fromTube.length - 1; i >= 0; i--) {
-                    if (fromTube[i] === color) {
-                        countToMove++;
-                    } else {
-                        break;
-                    }
-                }
-
-                // Calculate how many can actually fit
-                const spaceAvailable = this.tubeCapacity - toTube.length;
-                const actualMove = Math.min(countToMove, spaceAvailable);
-
-                // Perform the move
-                for (let i = 0; i < actualMove; i++) {
-                    toTube.push(fromTube.pop());
-                }
-
-                return { success: true, moved: actualMove };
-            }
-
-            // Check if the puzzle is solved
-            isSolved() {
-                for (const tube of this.tubes) {
-                    // Empty tubes are OK
-                    if (tube.length === 0) continue;
-
-                    // Tube must be full
-                    if (tube.length !== this.tubeCapacity) return false;
-
-                    // All colors must be the same
-                    const firstColor = tube[0];
-                    if (!tube.every(color => color === firstColor)) return false;
-                }
-                return true;
-            }
-
-            // Get a hint (find one valid move)
-            getHint() {
-                const moves = this.getAllValidMoves();
-                
-                // Filter out pointless moves (moving to empty when source is already uniform)
-                const goodMoves = moves.filter(move => {
-                    const fromTube = this.tubes[move.from];
-                    const toTube = this.tubes[move.to];
-                    
-                    // If moving to empty tube, only suggest if it helps
-                    if (toTube.length === 0) {
-                        // Check if source tube is not already uniform
-                        const firstColor = fromTube[0];
-                        return !fromTube.every(c => c === firstColor);
-                    }
-                    
-                    return true;
-                });
-
-                return goodMoves.length > 0 ? goodMoves[0] : null;
-            }
-
-            // Add an empty tube
-            addTube() {
-                if (this.addedTubes >= 2) return false; // Max 2 added tubes
-                this.tubes.push([]);
-                this.addedTubes++;
-                return true;
-            }
-
-            // Get current state
-            getState() {
-                return {
-                    tubes: JSON.parse(JSON.stringify(this.tubes)),
-                    difficulty: this.difficulty,
-                    addedTubes: this.addedTubes,
-                    tubeCapacity: this.tubeCapacity
-                };
-            }
-
-            // Load state
-            loadState(state) {
-                this.tubes = JSON.parse(JSON.stringify(state.tubes));
-                this.difficulty = state.difficulty || 'medium';
-                this.addedTubes = state.addedTubes || 0;
-                this.tubeCapacity = state.tubeCapacity || 4;
-            }
+/* ===== SORTING ENGINE ===== */
+class SortingEngine{
+    constructor(){this.tubes=[];this.tubeCapacity=4;this.numColors=0;this.numEmptyTubes=0;this.difficulty='medium';this.addedTubes=0;}
+    generateLevel(d='medium'){
+        this.difficulty=d;this.addedTubes=0;
+        const p={easy:{colors:4,empty:2,capacity:4},medium:{colors:6,empty:2,capacity:4},hard:{colors:8,empty:2,capacity:4},expert:{colors:10,empty:2,capacity:4}};
+        const{colors,empty,capacity}=p[d];
+        this.numColors=colors;this.numEmptyTubes=empty;this.tubeCapacity=capacity;
+        this.tubes=[];
+        for(let c=1;c<=colors;c++)this.tubes.push(Array(capacity).fill(c));
+        for(let i=0;i<empty;i++)this.tubes.push([]);
+        this._shuffle(50+colors*10);
+        if(this.isSolved())return this.generateLevel(d);
+        return this.tubes;
+    }
+    _shuffle(n){
+        let done=0,tries=0,max=n*6;
+        while(done<n&&tries++<max){
+            const fs=this.tubes.map((t,i)=>t.length>0?i:-1).filter(i=>i>=0);
+            if(!fs.length)break;
+            const fi=fs[Math.floor(Math.random()*fs.length)];
+            const ts=this.tubes.map((t,i)=>i!==fi&&t.length<this.tubeCapacity?i:-1).filter(i=>i>=0);
+            if(!ts.length)continue;
+            const ti=ts[Math.floor(Math.random()*ts.length)];
+            const mv=Math.min(Math.floor(Math.random()*3)+1,this.tubes[fi].length,this.tubeCapacity-this.tubes[ti].length);
+            for(let i=0;i<mv;i++)this.tubes[ti].push(this.tubes[fi].pop());
+            done++;
         }
+    }
+    getAllValidMoves(){const m=[];for(let f=0;f<this.tubes.length;f++)for(let t=0;t<this.tubes.length;t++)if(f!==t&&this.isValidMove(f,t))m.push({from:f,to:t});return m;}
+    isValidMove(fi,ti){const f=this.tubes[fi],t=this.tubes[ti];if(!f.length)return false;if(t.length>=this.tubeCapacity)return false;if(!t.length)return true;return f[f.length-1]===t[t.length-1];}
+    performMove(fi,ti){
+        if(!this.isValidMove(fi,ti))return{success:false,moved:0};
+        const f=this.tubes[fi],t=this.tubes[ti],color=f[f.length-1];
+        let cnt=0;for(let i=f.length-1;i>=0&&f[i]===color;i--)cnt++;
+        const mv=Math.min(cnt,this.tubeCapacity-t.length);
+        for(let i=0;i<mv;i++)t.push(f.pop());
+        return{success:true,moved:mv};
+    }
+    isSolved(){for(const t of this.tubes){if(!t.length)continue;if(t.length!==this.tubeCapacity)return false;if(!t.every(c=>c===t[0]))return false;}return true;}
+    getHint(){
+        const moves=this.getAllValidMoves();
+        const good=moves.filter(({from,to})=>{const ft=this.tubes[from],tt=this.tubes[to];if(!tt.length)return!ft.every(c=>c===ft[0]);return true;});
+        return good[0]||null;
+    }
+    addTube(){if(this.addedTubes>=2)return false;this.tubes.push([]);this.addedTubes++;return true;}
+    getState(){return{tubes:JSON.parse(JSON.stringify(this.tubes)),difficulty:this.difficulty,addedTubes:this.addedTubes,tubeCapacity:this.tubeCapacity};}
+    loadState(s){this.tubes=JSON.parse(JSON.stringify(s.tubes));this.difficulty=s.difficulty||'medium';this.addedTubes=s.addedTubes||0;this.tubeCapacity=s.tubeCapacity||4;}
+}
 
-        // ==================== UI CONTROLLER ====================
-        class UIController {
-            constructor() {
-                this.selectedTubeIndex = null;
-                this.animating = false;
+/* ===== UI CONTROLLER ===== */
+class UIController{
+    constructor(){this.selectedTubeIndex=null;this.animating=false;}
+    renderTubes(tubes,cap,added){
+        const grid=document.getElementById('tubesGrid');grid.innerHTML='';
+        const n=tubes.length;const cols=n<=6?3:n<=8?4:n<=10?5:6;
+        grid.className=`tubes-grid cols-${cols}`;
+        tubes.forEach((tube,idx)=>{
+            const el=document.createElement('div');
+            el.className='tube'+(idx>=n-added?' added-tube':'');el.dataset.index=idx;
+            for(let i=0;i<cap;i++){
+                const seg=document.createElement('div');
+                seg.className='color-segment'+(tube[i]?` color-${tube[i]}`:'');
+                if(!tube[i])seg.style.opacity='0';
+                el.appendChild(seg);
             }
-
-            // Render the tubes on screen
-            renderTubes(tubes, tubeCapacity, addedTubesCount) {
-                const grid = document.getElementById('tubesGrid');
-                grid.innerHTML = '';
-
-                // Calculate grid columns
-                const totalTubes = tubes.length;
-                let cols = 4;
-                if (totalTubes <= 6) cols = 3;
-                if (totalTubes > 8) cols = 5;
-                if (totalTubes > 10) cols = 6;
-
-                grid.className = `tubes-grid cols-${cols}`;
-
-                tubes.forEach((tube, index) => {
-                    const tubeEl = document.createElement('div');
-                    tubeEl.className = 'tube';
-                    tubeEl.dataset.index = index;
-
-                    // Mark added tubes
-                    if (index >= tubes.length - addedTubesCount) {
-                        tubeEl.classList.add('added-tube');
-                    }
-
-                    // Add color segments
-                    const segments = [];
-                    for (let i = 0; i < tubeCapacity; i++) {
-                        const segment = document.createElement('div');
-                        segment.className = 'color-segment';
-                        
-                        if (tube[i]) {
-                            segment.classList.add(`color-${tube[i]}`);
-                        } else {
-                            segment.style.opacity = '0';
-                        }
-                        
-                        segments.push(segment);
-                    }
-
-                    segments.forEach(seg => tubeEl.appendChild(seg));
-                    grid.appendChild(tubeEl);
-                });
-            }
-
-            // Select a tube
-            selectTube(index) {
-                // Deselect previous
-                if (this.selectedTubeIndex !== null) {
-                    const prevTube = document.querySelector(`[data-index="${this.selectedTubeIndex}"]`);
-                    if (prevTube) prevTube.classList.remove('selected');
-                }
-
-                // Select new
-                this.selectedTubeIndex = index;
-                const tube = document.querySelector(`[data-index="${index}"]`);
-                if (tube) {
-                    tube.classList.add('selected');
-                }
-            }
-
-            // Deselect tube
-            deselectTube() {
-                if (this.selectedTubeIndex !== null) {
-                    const tube = document.querySelector(`[data-index="${this.selectedTubeIndex}"]`);
-                    if (tube) tube.classList.remove('selected');
-                }
-                this.selectedTubeIndex = null;
-            }
-
-            // Show invalid move animation
-            showInvalidMove(index) {
-                const tube = document.querySelector(`[data-index="${index}"]`);
-                if (tube) {
-                    tube.classList.add('shake');
-                    setTimeout(() => tube.classList.remove('shake'), 300);
-                }
-            }
-
-            // Animate move
-            async animateMove(fromIndex, toIndex, callback) {
-                this.animating = true;
-                
-                // Visual feedback
-                const fromTube = document.querySelector(`[data-index="${fromIndex}"]`);
-                const toTube = document.querySelector(`[data-index="${toIndex}"]`);
-                
-                if (fromTube) fromTube.style.transform = 'scale(0.95)';
-                if (toTube) toTube.style.transform = 'scale(1.05)';
-
-                setTimeout(() => {
-                    if (fromTube) fromTube.style.transform = '';
-                    if (toTube) toTube.style.transform = '';
-                    
-                    if (callback) callback();
-                    this.animating = false;
-                }, 300);
-            }
-
-            // Update stats display
-            updateStats(moves, time, level) {
-                document.getElementById('movesCount').textContent = moves;
-                document.getElementById('timerDisplay').textContent = this.formatTime(time);
-                document.getElementById('levelDisplay').textContent = level;
-            }
-
-            // Format time as MM:SS
-            formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            }
-
-            // Show toast notification
-            showToast(message, type = 'info') {
-                const container = document.getElementById('toastContainer');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                
-                const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : 'ℹ️';
-                toast.innerHTML = `<span>${icon}</span><span>${message}</span>`;
-                
-                container.appendChild(toast);
-
-                setTimeout(() => {
-                    toast.style.animation = 'slideIn 0.3s ease-out reverse';
-                    setTimeout(() => toast.remove(), 300);
-                }, 2000);
-            }
-
-            // Show win screen
-            showWinScreen(moves, time, stars) {
-                const overlay = document.getElementById('winOverlay');
-                overlay.classList.add('active');
-
-                document.getElementById('winMoves').textContent = moves;
-                document.getElementById('winTime').textContent = this.formatTime(time);
-
-                // Animate stars
-                const starElements = document.querySelectorAll('#starsDisplay .star');
-                starElements.forEach((star, i) => {
-                    star.classList.remove('filled');
-                    if (i < stars) {
-                        setTimeout(() => star.classList.add('filled'), i * 200);
-                    }
-                });
-
-                // Confetti
-                this.createConfetti();
-            }
-
-            // Hide win screen
-            hideWinScreen() {
-                document.getElementById('winOverlay').classList.remove('active');
-            }
-
-            // Create confetti effect
-            createConfetti() {
-                const colors = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
-                for (let i = 0; i < 50; i++) {
-                    setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.className = 'confetti';
-                        confetti.style.left = Math.random() * 100 + '%';
-                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                        confetti.style.animation = `confettiFall ${2 + Math.random() * 2}s linear`;
-                        document.body.appendChild(confetti);
-
-                        setTimeout(() => confetti.remove(), 4000);
-                    }, i * 30);
-                }
-
-                // Add confetti animation
-                if (!document.getElementById('confettiStyle')) {
-                    const style = document.createElement('style');
-                    style.id = 'confettiStyle';
-                    style.textContent = `
-                        @keyframes confettiFall {
-                            to {
-                                transform: translateY(100vh) rotate(360deg);
-                                opacity: 0;
-                            }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-            }
-
-            // Toggle menu
-            toggleMenu(show) {
-                const overlay = document.getElementById('menuOverlay');
-                if (show) {
-                    overlay.classList.add('active');
-                } else {
-                    overlay.classList.remove('active');
-                }
-            }
-
-            // Update button states
-            updateButtons(canUndo, canRedo, canAddTube) {
-                document.getElementById('undoBtn').disabled = !canUndo;
-                document.getElementById('redoBtn').disabled = !canRedo;
-                document.getElementById('addTubeBtn').disabled = !canAddTube;
-            }
-
-            // Highlight hint
-            highlightHint(fromIndex, toIndex) {
-                const fromTube = document.querySelector(`[data-index="${fromIndex}"]`);
-                const toTube = document.querySelector(`[data-index="${toIndex}"]`);
-
-                if (fromTube && toTube) {
-                    fromTube.style.border = '3px solid var(--warning)';
-                    toTube.style.border = '3px solid var(--success)';
-
-                    setTimeout(() => {
-                        fromTube.style.border = '';
-                        toTube.style.border = '';
-                    }, 2000);
-                }
-            }
-
-            // Update statistics in menu
-            updateStatsDisplay(stats) {
-                document.getElementById('totalGamesPlayed').textContent = stats.gamesPlayed;
-                document.getElementById('totalWins').textContent = stats.wins;
-                document.getElementById('bestTime').textContent = stats.bestTime ? this.formatTime(stats.bestTime) : '--:--';
-                document.getElementById('avgMoves').textContent = stats.avgMoves || 0;
-            }
-        }
-
-        // ==================== APP MANAGER ====================
-        class AppManager {
-            constructor() {
-                this.engine = new SortingEngine();
-                this.ui = new UIController();
-                
-                this.moveHistory = [];
-                this.redoStack = [];
-                this.currentLevel = 1;
-                this.moves = 0;
-                this.time = 0;
-                this.timerInterval = null;
-                
-                this.settings = {
-                    vibration: true,
-                    sound: true,
-                    theme: 'dark',
-                    icons: true
-                };
-                
-                this.stats = {
-                    gamesPlayed: 0,
-                    wins: 0,
-                    bestTime: null,
-                    totalMoves: 0,
-                    avgMoves: 0
-                };
-
-                this.init();
-            }
-
-            // Initialize app
-            init() {
-                this.loadSettings();
-                this.loadStats();
-                this.registerServiceWorker();
-                this.setupEventListeners();
-                this.showWelcomeScreen();
-            }
-
-            // Show welcome screen
-            showWelcomeScreen() {
-                const welcomeScreen = document.getElementById('welcomeScreen');
-                const continueBtn = document.getElementById('continueGameBtn');
-                const newGameBtn = document.getElementById('newGameBtn');
-                const difficultySelector = document.getElementById('difficultySelector');
-
-                // Check if there's a saved game
-                const savedGame = localStorage.getItem('gameState');
-                const hasSavedGame = savedGame && !this.isGameCompleted(savedGame);
-
-                if (hasSavedGame) {
-                    continueBtn.style.display = 'flex';
-                }
-
-                // Continue game button
-                continueBtn.addEventListener('click', () => {
-                    this.hideWelcomeScreen();
-                    if (this.loadGameState()) {
-                        this.startTimer();
-                    } else {
-                        this.startNewGame('medium');
-                    }
-                });
-
-                // New game button
-                let difficultyShown = false;
-                newGameBtn.addEventListener('click', () => {
-                    if (!difficultyShown) {
-                        difficultySelector.style.display = 'block';
-                        newGameBtn.innerHTML = '<span>←</span><span>Back</span>';
-                        difficultyShown = true;
-                    } else {
-                        difficultySelector.style.display = 'none';
-                        newGameBtn.innerHTML = '<span>🎮</span><span>New Game</span>';
-                        difficultyShown = false;
-                    }
-                });
-
-                // Difficulty options
-                document.querySelectorAll('.difficulty-option').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const difficulty = btn.dataset.difficulty;
-                        this.hideWelcomeScreen();
-                        this.startNewGame(difficulty);
-                    });
-                });
-            }
-
-            // Hide welcome screen with animation
-            hideWelcomeScreen() {
-                const welcomeScreen = document.getElementById('welcomeScreen');
-                welcomeScreen.classList.add('hidden');
-                setTimeout(() => {
-                    welcomeScreen.style.display = 'none';
-                }, 300);
-            }
-
-            // Check if saved game is completed
-            isGameCompleted(savedGameJson) {
-                try {
-                    const state = JSON.parse(savedGameJson);
-                    if (!state.engine || !state.engine.tubes) return true;
-                    
-                    // Check if all tubes are either empty or completed
-                    for (const tube of state.engine.tubes) {
-                        if (tube.length === 0) continue;
-                        if (tube.length !== state.engine.tubeCapacity) return false;
-                        const firstColor = tube[0];
-                        if (!tube.every(c => c === firstColor)) return false;
-                    }
-                    return true;
-                } catch {
-                    return true;
-                }
-            }
-
-            // Setup all event listeners
-            setupEventListeners() {
-                // Header buttons
-                document.getElementById('menuBtn').addEventListener('click', () => {
-                    this.ui.toggleMenu(true);
-                });
-
-                document.getElementById('closeMenuBtn').addEventListener('click', () => {
-                    this.ui.toggleMenu(false);
-                });
-
-                document.getElementById('undoBtn').addEventListener('click', () => this.undo());
-                document.getElementById('redoBtn').addEventListener('click', () => this.redo());
-
-                // Control buttons
-                document.getElementById('restartBtn').addEventListener('click', () => this.restart());
-                document.getElementById('hintBtn').addEventListener('click', () => this.showHint());
-                document.getElementById('addTubeBtn').addEventListener('click', () => this.addTube());
-
-                // Difficulty buttons
-                document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const difficulty = btn.dataset.difficulty;
-                        this.startNewGame(difficulty);
-                        this.ui.toggleMenu(false);
-                    });
-                });
-
-                // Settings toggles
-                document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
-                document.getElementById('iconsToggle').addEventListener('click', () => this.toggleIcons());
-                document.getElementById('vibrationToggle').addEventListener('click', () => this.toggleVibration());
-                document.getElementById('soundToggle').addEventListener('click', () => this.toggleSound());
-
-                // Win screen buttons
-                document.getElementById('winNextBtn').addEventListener('click', () => {
-                    this.ui.hideWinScreen();
-                    this.startNewGame(this.engine.difficulty);
-                });
-
-                document.getElementById('winMenuBtn').addEventListener('click', () => {
-                    this.ui.hideWinScreen();
-                    this.ui.toggleMenu(true);
-                });
-
-                // Tube clicks (delegated)
-                document.getElementById('tubesGrid').addEventListener('click', (e) => {
-                    const tube = e.target.closest('.tube');
-                    if (tube && !this.ui.animating) {
-                        const index = parseInt(tube.dataset.index);
-                        this.handleTubeClick(index);
-                    }
-                });
-
-                // Version badge click
-                document.getElementById('versionBadge').addEventListener('click', () => {
-                    this.showResetDialog();
-                });
-
-                // Reset data button
-                document.getElementById('resetDataBtn').addEventListener('click', () => {
-                    this.showResetDialog();
-                });
-            }
-
-            // Handle tube click
-            handleTubeClick(index) {
-                if (this.ui.selectedTubeIndex === null) {
-                    // First click - select
-                    if (this.engine.tubes[index].length > 0) {
-                        this.ui.selectTube(index);
-                        this.vibrate(10);
-                    }
-                } else if (this.ui.selectedTubeIndex === index) {
-                    // Click same tube - deselect
-                    this.ui.deselectTube();
-                    this.vibrate(10);
-                } else {
-                    // Second click - attempt move
-                    this.attemptMove(this.ui.selectedTubeIndex, index);
-                }
-            }
-
-            // Attempt to make a move
-            attemptMove(fromIndex, toIndex) {
-                if (this.engine.isValidMove(fromIndex, toIndex)) {
-                    this.ui.animateMove(fromIndex, toIndex, () => {
-                        // Save state for undo
-                        this.moveHistory.push(this.engine.getState());
-                        this.redoStack = [];
-
-                        // Perform move
-                        const result = this.engine.performMove(fromIndex, toIndex);
-                        this.moves++;
-
-                        // Update UI
-                        this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                        this.ui.deselectTube();
-                        this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                        this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-
-                        this.vibrate(20);
-                        this.saveGameState();
-
-                        // Check win
-                        if (this.engine.isSolved()) {
-                            this.handleWin();
-                        }
-                    });
-                } else {
-                    // Invalid move
-                    this.ui.showInvalidMove(toIndex);
-                    this.ui.showToast('Invalid move!', 'error');
-                    this.ui.deselectTube();
-                    this.vibrate(50);
-                }
-            }
-
-            // Undo last move
-            undo() {
-                if (this.moveHistory.length > 0) {
-                    this.redoStack.push(this.engine.getState());
-                    const prevState = this.moveHistory.pop();
-                    this.engine.loadState(prevState);
-                    this.moves--;
-                    
-                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-                    this.ui.deselectTube();
-                    this.vibrate(15);
-                    this.saveGameState();
-                }
-            }
-
-            // Redo move
-            redo() {
-                if (this.redoStack.length > 0) {
-                    this.moveHistory.push(this.engine.getState());
-                    const nextState = this.redoStack.pop();
-                    this.engine.loadState(nextState);
-                    this.moves++;
-                    
-                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-                    this.vibrate(15);
-                    this.saveGameState();
-                }
-            }
-
-            // Restart current level
-            restart() {
-                if (this.moveHistory.length > 0) {
-                    const initialState = this.moveHistory[0];
-                    this.engine.loadState(initialState);
-                    this.moves = 0;
-                    this.moveHistory = [];
-                    this.redoStack = [];
-                    
-                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                    this.ui.updateButtons(false, false, this.engine.addedTubes < 2);
-                    this.ui.deselectTube();
-                    this.ui.showToast('Game restarted', 'info');
-                    this.vibrate(20);
-                    this.saveGameState();
-                }
-            }
-
-            // Show hint
-            showHint() {
-                const hint = this.engine.getHint();
-                if (hint) {
-                    this.ui.highlightHint(hint.from, hint.to);
-                    this.ui.showToast('Hint shown on board', 'success');
-                    this.vibrate(15);
-                } else {
-                    this.ui.showToast('No hints available', 'info');
-                }
-            }
-
-            // Add extra tube
-            addTube() {
-                if (this.engine.addTube()) {
-                    this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                    this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-                    this.ui.showToast('Tube added!', 'success');
-                    this.vibrate(20);
-                    this.saveGameState();
-                } else {
-                    this.ui.showToast('Cannot add more tubes', 'error');
-                }
-            }
-
-            // Start new game
-            startNewGame(difficulty) {
-                // Stop timer
-                if (this.timerInterval) clearInterval(this.timerInterval);
-
-                // Generate level
-                this.engine.generateLevel(difficulty);
-                this.moves = 0;
-                this.time = 0;
-                this.moveHistory = [];
-                this.redoStack = [];
-                this.currentLevel++;
-
-                // Save initial state
-                this.moveHistory.push(this.engine.getState());
-
-                // Render
-                this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                this.ui.updateButtons(false, false, this.engine.addedTubes < 2);
-                this.ui.deselectTube();
-
-                // Start timer
-                this.startTimer();
-                this.saveGameState();
-
-                // Update stats
-                this.stats.gamesPlayed++;
-                this.saveStats();
-            }
-
-            // Start timer
-            startTimer() {
-                this.timerInterval = setInterval(() => {
-                    this.time++;
-                    this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                }, 1000);
-            }
-
-            // Handle win
-            handleWin() {
-                // Stop timer
-                if (this.timerInterval) clearInterval(this.timerInterval);
-
-                // Calculate stars (based on moves)
-                const minMoves = this.engine.numColors * 2;
-                let stars = 3;
-                if (this.moves > minMoves * 1.5) stars = 2;
-                if (this.moves > minMoves * 2) stars = 1;
-
-                // Update stats
-                this.stats.wins++;
-                this.stats.totalMoves += this.moves;
-                this.stats.avgMoves = Math.round(this.stats.totalMoves / this.stats.wins);
-                if (!this.stats.bestTime || this.time < this.stats.bestTime) {
-                    this.stats.bestTime = this.time;
-                }
-                this.saveStats();
-
-                // Show win screen
-                setTimeout(() => {
-                    this.ui.showWinScreen(this.moves, this.time, stars);
-                    this.vibrate([50, 100, 50, 100, 50]);
-                }, 500);
-            }
-
-            // Settings
-            toggleTheme() {
-                const toggle = document.getElementById('themeToggle');
-                toggle.classList.toggle('active');
-                this.settings.theme = toggle.classList.contains('active') ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-theme', this.settings.theme);
-                this.saveSettings();
-            }
-
-            toggleVibration() {
-                const toggle = document.getElementById('vibrationToggle');
-                toggle.classList.toggle('active');
-                this.settings.vibration = toggle.classList.contains('active');
-                this.saveSettings();
-            }
-
-            toggleSound() {
-                const toggle = document.getElementById('soundToggle');
-                toggle.classList.toggle('active');
-                this.settings.sound = toggle.classList.contains('active');
-                this.saveSettings();
-            }
-
-            toggleIcons() {
-                const toggle = document.getElementById('iconsToggle');
-                toggle.classList.toggle('active');
-                this.settings.icons = toggle.classList.contains('active');
-                
-                if (this.settings.icons) {
-                    document.body.classList.remove('no-icons');
-                } else {
-                    document.body.classList.add('no-icons');
-                }
-                
-                this.saveSettings();
-            }
-
-            // Vibration
-            vibrate(pattern) {
-                if (this.settings.vibration && navigator.vibrate) {
-                    navigator.vibrate(pattern);
-                }
-            }
-
-            // Reset dialog
-            showResetDialog() {
-                const dialog = document.createElement('div');
-                dialog.className = 'reset-modal';
-                dialog.innerHTML = `
-                    <h3 class="reset-modal-title">Delete Data</h3>
-                    <p class="reset-modal-text">Are you sure you want to delete all app data? This will erase all your progress, statistics, and settings.</p>
-                    <div class="reset-modal-buttons">
-                        <button class="reset-modal-btn cancel">Cancel</button>
-                        <button class="reset-modal-btn danger">Delete All</button>
-                    </div>
-                `;
-
-                document.body.appendChild(dialog);
-
-                dialog.querySelector('.cancel').addEventListener('click', () => {
-                    dialog.remove();
-                });
-
-                dialog.querySelector('.danger').addEventListener('click', () => {
-                    this.resetAllData();
-                    dialog.remove();
-                });
-            }
-
-            // Reset all data
-            async resetAllData() {
-                // Clear localStorage
-                localStorage.clear();
-
-                // Unregister service worker
-                if ('serviceWorker' in navigator) {
-                    const registrations = await navigator.serviceWorker.getRegistrations();
-                    for (const registration of registrations) {
-                        await registration.unregister();
-                    }
-                }
-
-                // Clear caches
-                if ('caches' in window) {
-                    const cacheNames = await caches.keys();
-                    await Promise.all(cacheNames.map(name => caches.delete(name)));
-                }
-
-                this.ui.showToast('All data deleted. App will reload...', 'success');
-                
-                setTimeout(() => {
-                    window.location.reload(true);
-                }, 2000);
-            }
-
-            // Persistence
-            saveGameState() {
-                const state = {
-                    engine: this.engine.getState(),
-                    moves: this.moves,
-                    time: this.time,
-                    level: this.currentLevel,
-                    moveHistory: this.moveHistory,
-                    redoStack: this.redoStack
-                };
-                localStorage.setItem('gameState', JSON.stringify(state));
-            }
-
-            loadGameState() {
-                const saved = localStorage.getItem('gameState');
-                if (saved) {
-                    try {
-                        const state = JSON.parse(saved);
-                        this.engine.loadState(state.engine);
-                        this.moves = state.moves;
-                        this.time = state.time;
-                        this.currentLevel = state.level;
-                        this.moveHistory = state.moveHistory || [];
-                        this.redoStack = state.redoStack || [];
-                        
-                        this.ui.renderTubes(this.engine.tubes, this.engine.tubeCapacity, this.engine.addedTubes);
-                        this.ui.updateStats(this.moves, this.time, this.currentLevel);
-                        this.ui.updateButtons(this.moveHistory.length > 0, this.redoStack.length > 0, this.engine.addedTubes < 2);
-                        
-                        if (!this.engine.isSolved()) {
-                            this.startTimer();
-                        }
-                        
-                        return true;
-                    } catch (e) {
-                        console.error('Failed to load game state:', e);
-                    }
-                }
-                return false;
-            }
-
-            saveSettings() {
-                localStorage.setItem('settings', JSON.stringify(this.settings));
-            }
-
-            loadSettings() {
-                const saved = localStorage.getItem('settings');
-                if (saved) {
-                    try {
-                        this.settings = JSON.parse(saved);
-                        
-                        // Apply theme
-                        document.documentElement.setAttribute('data-theme', this.settings.theme);
-                        if (this.settings.theme === 'dark') {
-                            document.getElementById('themeToggle').classList.add('active');
-                        }
-
-                        // Apply icons
-                        if (this.settings.icons !== false) {
-                            document.getElementById('iconsToggle').classList.add('active');
-                            document.body.classList.remove('no-icons');
-                        } else {
-                            document.getElementById('iconsToggle').classList.remove('active');
-                            document.body.classList.add('no-icons');
-                        }
-
-                        // Apply vibration
-                        if (this.settings.vibration) {
-                            document.getElementById('vibrationToggle').classList.add('active');
-                        } else {
-                            document.getElementById('vibrationToggle').classList.remove('active');
-                        }
-
-                        // Apply sound
-                        if (this.settings.sound) {
-                            document.getElementById('soundToggle').classList.add('active');
-                        } else {
-                            document.getElementById('soundToggle').classList.remove('active');
-                        }
-                    } catch (e) {
-                        console.error('Failed to load settings:', e);
-                    }
-                }
-            }
-
-            saveStats() {
-                localStorage.setItem('stats', JSON.stringify(this.stats));
-                this.ui.updateStatsDisplay(this.stats);
-            }
-
-            loadStats() {
-                const saved = localStorage.getItem('stats');
-                if (saved) {
-                    try {
-                        this.stats = JSON.parse(saved);
-                        this.ui.updateStatsDisplay(this.stats);
-                    } catch (e) {
-                        console.error('Failed to load stats:', e);
-                    }
-                }
-            }
-
-            // Service Worker
-            async registerServiceWorker() {
-                if ('serviceWorker' in navigator) {
-                    try {
-                        const registration = await navigator.serviceWorker.register('./sw.js');
-                        console.log('Service Worker registered:', registration);
-                    } catch (error) {
-                        console.error('Service Worker registration failed:', error);
-                    }
-                }
-            }
-        }
-
-        // ==================== INITIALIZE APP ====================
-        let app;
-        window.addEventListener('DOMContentLoaded', () => {
-            app = new AppManager();
-            
-            // Check URL parameters for shortcuts (skip welcome screen)
-            const urlParams = new URLSearchParams(window.location.search);
-            const difficulty = urlParams.get('difficulty');
-            
-            if (difficulty && ['easy', 'medium', 'hard', 'expert'].includes(difficulty)) {
-                // Direct start from shortcut - hide welcome screen
-                document.getElementById('welcomeScreen').style.display = 'none';
-                app.startNewGame(difficulty);
-            }
-            // Otherwise welcome screen is shown by init()
+            grid.appendChild(el);
         });
-    </script>
+    }
+    selectTube(idx){this.deselectTube();this.selectedTubeIndex=idx;document.querySelector(`[data-index="${idx}"]`)?.classList.add('selected');}
+    deselectTube(){if(this.selectedTubeIndex!==null)document.querySelector(`[data-index="${this.selectedTubeIndex}"]`)?.classList.remove('selected');this.selectedTubeIndex=null;}
+    showInvalidMove(idx){const el=document.querySelector(`[data-index="${idx}"]`);if(el){el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),350);}}
+    animateMove(fi,ti,cb){
+        this.animating=true;
+        const fe=document.querySelector(`[data-index="${fi}"]`),te=document.querySelector(`[data-index="${ti}"]`);
+        if(fe)fe.style.transform='scale(0.95)';if(te)te.style.transform='scale(1.05)';
+        setTimeout(()=>{if(fe)fe.style.transform='';if(te)te.style.transform='';cb?.();this.animating=false;},280);
+    }
+    highlightHint(fi,ti){
+        const fe=document.querySelector(`[data-index="${fi}"]`),te=document.querySelector(`[data-index="${ti}"]`);
+        fe?.classList.add('hint-from');te?.classList.add('hint-to');
+        setTimeout(()=>{fe?.classList.remove('hint-from');te?.classList.remove('hint-to');},2000);
+    }
+    updateStats(moves,time,level){document.getElementById('movesCount').textContent=moves;document.getElementById('timerDisplay').textContent=this.formatTime(time);document.getElementById('levelDisplay').textContent=level;}
+    formatTime(s){return`${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;}
+    showToast(msg,type='info',dur=2500){
+        const c=document.getElementById('toastContainer'),t=document.createElement('div');
+        t.className=`toast ${type}`;
+        const icons={error:'❌',success:'✅',info:'ℹ️',warning:'⚠️'};
+        t.innerHTML=`<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+        c.appendChild(t);
+        setTimeout(()=>{t.style.cssText='opacity:0;transform:translateY(-10px);transition:all 0.3s';setTimeout(()=>t.remove(),300);},dur);
+    }
+    showWinScreen(moves,time,stars){
+        document.getElementById('winOverlay').classList.add('active');
+        document.body.classList.add('modal-open');
+        document.getElementById('winMoves').textContent=moves;
+        document.getElementById('winTime').textContent=this.formatTime(time);
+        document.querySelectorAll('#starsDisplay .star').forEach((s,i)=>{s.classList.remove('filled');if(i<stars)setTimeout(()=>s.classList.add('filled'),i*200);});
+        this.createConfetti();
+    }
+    hideWinScreen(){document.getElementById('winOverlay').classList.remove('active');document.body.classList.remove('modal-open');}
+    toggleMenu(show){
+        const ov=document.getElementById('menuOverlay');
+        if(show){ov.classList.add('active');document.body.classList.add('modal-open');}
+        else{ov.classList.remove('active');document.body.classList.remove('modal-open');}
+    }
+    updateButtons(u,r,a){document.getElementById('undoBtn').disabled=!u;document.getElementById('redoBtn').disabled=!r;document.getElementById('addTubeBtn').disabled=!a;}
+    updateStatsDisplay(s){
+        document.getElementById('totalGamesPlayed').textContent=s.gamesPlayed;
+        document.getElementById('totalWins').textContent=s.wins;
+        document.getElementById('bestTime').textContent=s.bestTime?this.formatTime(s.bestTime):'--:--';
+        document.getElementById('avgMoves').textContent=s.avgMoves||0;
+    }
+    createConfetti(){
+        const cols=['#ef4444','#3b82f6','#10b981','#fbbf24','#8b5cf6'];
+        for(let i=0;i<60;i++)setTimeout(()=>{
+            const c=document.createElement('div');c.className='confetti';
+            c.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation:confettiFall ${2+Math.random()*2}s linear forwards`;
+            document.body.appendChild(c);setTimeout(()=>c.remove(),4000);
+        },i*40);
+    }
+}
+
+/* ===== APP MANAGER ===== */
+class AppManager{
+    constructor(){
+        this.engine=new SortingEngine();this.ui=new UIController();
+        this.moveHistory=[];this.redoStack=[];
+        this.currentLevel=1;this.moves=0;this.time=0;this.timerInterval=null;
+        this._swReg=null;this._installPrompt=null;
+        this.settings={vibration:true,sound:true,theme:'dark',icons:true,animations:true};
+        this.stats={gamesPlayed:0,wins:0,bestTime:null,totalMoves:0,avgMoves:0};
+        this.init();
+    }
+    init(){
+        this._checkVersionUpgrade();
+        this.loadSettings();this.loadStats();
+        this._setupNetworkMonitor();
+        this._setupInstallPrompt();
+        this._setupDataSaverAlert();
+        this._setupPullToRefresh();
+        this._setupSwipeGestures();
+        this._registerServiceWorker();
+        this._setupWatchdog();
+        this.setupEventListeners();
+        this.showWelcomeScreen();
+    }
+
+    /* 1.3 version check */
+    _checkVersionUpgrade(){
+        const prev=localStorage.getItem('appVersion');
+        if(prev&&prev!==APP_VERSION){console.log(`[Version] Upgrade ${prev}→${APP_VERSION}`);if('caches'in window)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)));}
+        localStorage.setItem('appVersion',APP_VERSION);
+    }
+
+    /* 4.1 + 1.2 + 1.4 */
+    async _registerServiceWorker(){
+        if(!('serviceWorker'in navigator))return;
+        try{
+            this._swReg=await navigator.serviceWorker.register('./sw.js');
+            this._swReg.addEventListener('updatefound',()=>{
+                const nw=this._swReg.installing;
+                nw?.addEventListener('statechange',()=>{if(nw.state==='installed'&&navigator.serviceWorker.controller)this._showUpdatePrompt(nw);});
+            });
+            let refreshing=false;
+            navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!refreshing){refreshing=true;window.location.reload();}});
+            setInterval(async()=>{
+                try{
+                    const res=await fetch('./version.json?t='+Date.now(),{cache:'no-store'});
+                    if(res.ok){const{version}=await res.json();if(version&&version!==APP_VERSION){this._showUpdatePrompt(null,version);return;}}
+                    await this._swReg.update();
+                    const nw=this._swReg.installing||this._swReg.waiting;
+                    if(nw)this._showUpdatePrompt(nw);
+                }catch(e){}
+            },300000);
+        }catch(e){console.error('[SW]',e);}
+    }
+
+    /* 1.4 update prompt */
+    _showUpdatePrompt(worker,rv=null){
+        const p=document.getElementById('updatePrompt');
+        if(rv)p.querySelector('.update-prompt-text').textContent=`New version ${rv} available!`;
+        p.classList.add('visible');
+        document.getElementById('updateNowBtn').onclick=()=>{
+            p.classList.remove('visible');
+            if(worker)worker.postMessage({type:'SKIP_WAITING'});
+            else{if('caches'in window)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)));window.location.reload(true);}
+        };
+    }
+
+    /* 4.2 + 4.3 */
+    _setupNetworkMonitor(){
+        const b=document.getElementById('offlineBanner');
+        const upd=()=>{if(!navigator.onLine){b.classList.add('visible');}else{if(b.classList.contains('visible')){b.classList.remove('visible');this.ui.showToast('Connection restored ✓','success');}}};
+        window.addEventListener('offline',upd);window.addEventListener('online',upd);upd();
+    }
+
+    /* 4.4 */
+    _setupDataSaverAlert(){
+        const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+        if(!conn)return;
+        const chk=()=>{if(conn.saveData||conn.effectiveType==='2g'||conn.effectiveType==='slow-2g')this.ui.showToast('Slow connection – lite mode active','warning',4000);};
+        chk();conn.addEventListener?.('change',chk);
+    }
+
+    /* 3.2 + 3.3 + 3.4 */
+    _setupInstallPrompt(){
+        if(localStorage.getItem('installDismissed'))return;
+        window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();this._installPrompt=e;setTimeout(()=>document.getElementById('installBanner').classList.add('visible'),3000);});
+        document.getElementById('installAcceptBtn').addEventListener('click',async()=>{
+            if(!this._installPrompt)return;
+            this._installPrompt.prompt();
+            const{outcome}=await this._installPrompt.userChoice;
+            this._installPrompt=null;document.getElementById('installBanner').classList.remove('visible');
+            if(outcome==='accepted')this.ui.showToast('App installed! 🎉','success');
+        });
+        document.getElementById('installDismissBtn').addEventListener('click',()=>{document.getElementById('installBanner').classList.remove('visible');localStorage.setItem('installDismissed','1');});
+        window.addEventListener('appinstalled',()=>{document.getElementById('installBanner').classList.remove('visible');localStorage.setItem('appInstalled','1');this.ui.showToast('Color Sort installed! 🎉','success',4000);});
+    }
+
+    /* 5.2 pull-to-refresh */
+    _setupPullToRefresh(){
+        const gc=document.getElementById('gameContainer'),ptr=document.getElementById('ptrIndicator');
+        let sy=0,pulling=false;
+        gc.addEventListener('touchstart',e=>{if(gc.scrollTop===0)sy=e.touches[0].clientY;},{passive:true});
+        gc.addEventListener('touchmove',e=>{if(!sy)return;const dy=e.touches[0].clientY-sy;if(dy>20&&gc.scrollTop===0){pulling=true;ptr.classList.add('pulling');}if(dy>80&&pulling)ptr.textContent='↑';},{passive:true});
+        gc.addEventListener('touchend',e=>{
+            if(!pulling){sy=0;return;}
+            const dy=e.changedTouches[0].clientY-sy;
+            if(dy>80){ptr.classList.replace('pulling','refreshing');ptr.textContent='↻';setTimeout(()=>{ptr.classList.remove('refreshing');ptr.textContent='↓';this.ui.showToast('Refreshed','info');},1000);}
+            else{ptr.classList.remove('pulling');ptr.textContent='↓';}
+            pulling=false;sy=0;
+        },{passive:true});
+    }
+
+    /* 5.3 swipe gestures */
+    _setupSwipeGestures(){
+        let sx=0,sy=0;
+        document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+        document.addEventListener('touchend',e=>{
+            const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+            const adx=Math.abs(dx),ady=Math.abs(dy);if(adx<30&&ady<30)return;
+            if(ady>adx&&dy>60){
+                const wo=document.getElementById('winOverlay'),mo=document.getElementById('menuOverlay');
+                if(wo.classList.contains('active')){this.ui.hideWinScreen();return;}
+                if(mo.classList.contains('active')){this.ui.toggleMenu(false);return;}
+            }
+            if(adx>ady&&adx>80){if(dx<0)this.undo();else this.redo();}
+        },{passive:true});
+    }
+
+    /* 8.2 watchdog */
+    _setupWatchdog(){
+        let lt=0,frozen=0;
+        setInterval(()=>{const now=Date.now();if(lt&&now-lt>5000){frozen++;if(frozen>=2){if(this.engine.tubes.length){this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);this.ui.showToast('Display recovered','info');}frozen=0;}}else frozen=0;lt=now;},2000);
+    }
+
+    /* welcome */
+    showWelcomeScreen(){
+        const saved=localStorage.getItem('gameState');
+        if(saved&&!this._isCompleted(saved))document.getElementById('continueGameBtn').style.display='flex';
+        document.getElementById('continueGameBtn').addEventListener('click',()=>{this._hideWelcome();this.loadGameState()||this.startNewGame('medium');});
+        let open=false;
+        document.getElementById('newGameBtn').addEventListener('click',()=>{
+            const ds=document.getElementById('difficultySelector'),nb=document.getElementById('newGameBtn');
+            open=!open;ds.style.display=open?'block':'none';
+            nb.innerHTML=open?'<span>←</span><span>Back</span>':'<span>🎮</span><span>New Game</span>';
+        });
+        document.querySelectorAll('.difficulty-option').forEach(b=>b.addEventListener('click',()=>{this._hideWelcome();this.startNewGame(b.dataset.difficulty);}));
+    }
+    _hideWelcome(){const ws=document.getElementById('welcomeScreen');ws.classList.add('hiding');setTimeout(()=>ws.style.display='none',300);}
+    _isCompleted(json){try{const s=JSON.parse(json);if(!s.engine?.tubes)return true;for(const t of s.engine.tubes){if(!t.length)continue;if(t.length!==s.engine.tubeCapacity)return false;if(!t.every(c=>c===t[0]))return false;}return true;}catch{return true;}}
+
+    /* events */
+    setupEventListeners(){
+        document.getElementById('menuBtn').addEventListener('click',()=>this.ui.toggleMenu(true));
+        document.getElementById('closeMenuBtn').addEventListener('click',()=>this.ui.toggleMenu(false));
+        document.getElementById('menuOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)this.ui.toggleMenu(false);}); /* 5.1 backdrop */
+        document.getElementById('undoBtn').addEventListener('click',()=>this.undo());
+        document.getElementById('redoBtn').addEventListener('click',()=>this.redo());
+        document.getElementById('restartBtn').addEventListener('click',()=>this.restart());
+        document.getElementById('hintBtn').addEventListener('click',()=>this.showHint());
+        document.getElementById('addTubeBtn').addEventListener('click',()=>this.addTube());
+        document.querySelectorAll('.difficulty-btn').forEach(b=>b.addEventListener('click',()=>{this.startNewGame(b.dataset.difficulty);this.ui.toggleMenu(false);}));
+        document.getElementById('themeToggle').addEventListener('click',()=>this.toggleTheme());
+        document.getElementById('iconsToggle').addEventListener('click',()=>this.toggleIcons());
+        document.getElementById('animationsToggle').addEventListener('click',()=>this.toggleAnimations());
+        document.getElementById('vibrationToggle').addEventListener('click',()=>this.toggleVibration());
+        document.getElementById('soundToggle').addEventListener('click',()=>this.toggleSound());
+        document.getElementById('winNextBtn').addEventListener('click',()=>{this.ui.hideWinScreen();this.startNewGame(this.engine.difficulty);});
+        document.getElementById('winMenuBtn').addEventListener('click',()=>{this.ui.hideWinScreen();this.ui.toggleMenu(true);});
+        document.getElementById('tubesGrid').addEventListener('click',e=>{const t=e.target.closest('.tube');if(t&&!this.ui.animating)this.handleTubeClick(parseInt(t.dataset.index));});
+        document.getElementById('versionBadge').addEventListener('click',()=>this.showResetDialog());
+        document.getElementById('resetDataBtn').addEventListener('click',()=>this.showResetDialog());
+        document.getElementById('resetCancelBtn').addEventListener('click',()=>this._closeReset());
+        document.getElementById('modalBackdrop').addEventListener('click',e=>{if(e.target===e.currentTarget)this._closeReset();});
+        document.getElementById('resetConfirmBtn').addEventListener('click',()=>this.doSelectiveReset());
+    }
+
+    handleTubeClick(idx){
+        if(this.ui.selectedTubeIndex===null){if(this.engine.tubes[idx].length){this.ui.selectTube(idx);this.vibrate(10);}}
+        else if(this.ui.selectedTubeIndex===idx){this.ui.deselectTube();this.vibrate(10);}
+        else this.attemptMove(this.ui.selectedTubeIndex,idx);
+    }
+
+    attemptMove(fi,ti){
+        if(this.engine.isValidMove(fi,ti)){
+            this.ui.animateMove(fi,ti,()=>{
+                this.moveHistory.push(this.engine.getState());this.redoStack=[];
+                this.engine.performMove(fi,ti);this.moves++;
+                this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);
+                this.ui.deselectTube();this.ui.updateStats(this.moves,this.time,this.currentLevel);
+                this.ui.updateButtons(this.moveHistory.length>0,this.redoStack.length>0,this.engine.addedTubes<2);
+                this.vibrate(20);this.saveGameState();
+                if(this.engine.isSolved())this.handleWin();
+            });
+        }else{this.ui.showInvalidMove(ti);this.ui.showToast('Invalid move!','error');this.ui.deselectTube();this.vibrate([50,30,50]);}
+    }
+
+    undo(){if(!this.moveHistory.length)return;this.redoStack.push(this.engine.getState());this.engine.loadState(this.moveHistory.pop());if(this.moves>0)this.moves--;this._sync();this.vibrate(15);}
+    redo(){if(!this.redoStack.length)return;this.moveHistory.push(this.engine.getState());this.engine.loadState(this.redoStack.pop());this.moves++;this._sync();this.vibrate(15);}
+    _sync(){this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);this.ui.updateStats(this.moves,this.time,this.currentLevel);this.ui.updateButtons(this.moveHistory.length>0,this.redoStack.length>0,this.engine.addedTubes<2);this.ui.deselectTube();this.saveGameState();}
+
+    restart(){if(!this.moveHistory.length)return;this.engine.loadState(this.moveHistory[0]);this.moves=0;this.moveHistory=[];this.redoStack=[];this._sync();this.ui.showToast('Game restarted','info');this.vibrate(20);}
+    showHint(){const h=this.engine.getHint();if(h){this.ui.highlightHint(h.from,h.to);this.ui.showToast('Hint highlighted','success');this.vibrate(15);}else this.ui.showToast('No hints available','info');}
+    addTube(){if(this.engine.addTube()){this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);this.ui.updateButtons(this.moveHistory.length>0,this.redoStack.length>0,this.engine.addedTubes<2);this.ui.showToast('Extra tube added!','success');this.vibrate(20);this.saveGameState();}else this.ui.showToast('Max extra tubes reached','error');}
+
+    startNewGame(d){
+        clearInterval(this.timerInterval);this.engine.generateLevel(d);
+        this.moves=0;this.time=0;this.moveHistory=[];this.redoStack=[];this.currentLevel++;
+        this.moveHistory.push(this.engine.getState());
+        this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);
+        this.ui.updateStats(this.moves,this.time,this.currentLevel);
+        this.ui.updateButtons(false,false,this.engine.addedTubes<2);
+        this.ui.deselectTube();this.startTimer();this.saveGameState();
+        this.stats.gamesPlayed++;this.saveStats();
+    }
+    startTimer(){this.timerInterval=setInterval(()=>{this.time++;this.ui.updateStats(this.moves,this.time,this.currentLevel);},1000);}
+    handleWin(){
+        clearInterval(this.timerInterval);
+        const min=this.engine.numColors*2;let stars=3;
+        if(this.moves>min*1.5)stars=2;if(this.moves>min*2)stars=1;
+        this.stats.wins++;this.stats.totalMoves+=this.moves;
+        this.stats.avgMoves=Math.round(this.stats.totalMoves/this.stats.wins);
+        if(!this.stats.bestTime||this.time<this.stats.bestTime)this.stats.bestTime=this.time;
+        this.saveStats();
+        setTimeout(()=>{this.ui.showWinScreen(this.moves,this.time,stars);this.vibrate([50,100,50,100,50]);},500);
+    }
+
+    toggleTheme(){const t=document.getElementById('themeToggle');t.classList.toggle('active');this.settings.theme=t.classList.contains('active')?'dark':'light';document.documentElement.setAttribute('data-theme',this.settings.theme);this.saveSettings();}
+    toggleIcons(){const t=document.getElementById('iconsToggle');t.classList.toggle('active');this.settings.icons=t.classList.contains('active');document.body.classList.toggle('no-icons',!this.settings.icons);this.saveSettings();}
+    toggleAnimations(){const t=document.getElementById('animationsToggle');t.classList.toggle('active');this.settings.animations=t.classList.contains('active');this.saveSettings();}
+    toggleVibration(){const t=document.getElementById('vibrationToggle');t.classList.toggle('active');this.settings.vibration=t.classList.contains('active');this.saveSettings();}
+    toggleSound(){const t=document.getElementById('soundToggle');t.classList.toggle('active');this.settings.sound=t.classList.contains('active');this.saveSettings();}
+    vibrate(p){if(this.settings.vibration&&navigator.vibrate)navigator.vibrate(p);}
+
+    /* 2.1 + 2.3 selective reset */
+    showResetDialog(){document.getElementById('modalBackdrop').classList.add('active');document.body.classList.add('modal-open');}
+    _closeReset(){document.getElementById('modalBackdrop').classList.remove('active');document.body.classList.remove('modal-open');}
+    async doSelectiveReset(){
+        const prog=document.getElementById('resetProgress').checked;
+        const stats=document.getElementById('resetStats').checked;
+        const sets=document.getElementById('resetSettings').checked;
+        const cache=document.getElementById('resetCache').checked;
+        if(prog)localStorage.removeItem('gameState');
+        if(stats)localStorage.removeItem('stats');
+        if(sets)localStorage.removeItem('settings');
+        /* 2.2 deep clean */
+        try{sessionStorage.clear();}catch(e){}
+        try{document.cookie.split(';').forEach(c=>{document.cookie=c.trim().split('=')[0]+'=;expires='+new Date(0).toUTCString()+';path=/';});}catch(e){}
+        if(cache){
+            try{if('caches'in window){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();for(const r of rs)await r.unregister();}try{const dbs=await indexedDB.databases?.()??[];dbs.forEach(db=>indexedDB.deleteDatabase(db.name));}catch(e){}}catch(e){}
+        }
+        this._closeReset();this.ui.showToast('Data cleared. Reloading…','success');
+        setTimeout(()=>window.location.reload(true),1500);
+    }
+
+    /* persistence */
+    saveGameState(){localStorage.setItem('gameState',JSON.stringify({engine:this.engine.getState(),moves:this.moves,time:this.time,level:this.currentLevel,moveHistory:this.moveHistory,redoStack:this.redoStack}));}
+    loadGameState(){
+        try{
+            const s=JSON.parse(localStorage.getItem('gameState'));if(!s)return false;
+            this.engine.loadState(s.engine);this.moves=s.moves;this.time=s.time;this.currentLevel=s.level;
+            this.moveHistory=s.moveHistory||[];this.redoStack=s.redoStack||[];
+            this.ui.renderTubes(this.engine.tubes,this.engine.tubeCapacity,this.engine.addedTubes);
+            this.ui.updateStats(this.moves,this.time,this.currentLevel);
+            this.ui.updateButtons(this.moveHistory.length>0,this.redoStack.length>0,this.engine.addedTubes<2);
+            if(!this.engine.isSolved())this.startTimer();return true;
+        }catch(e){return false;}
+    }
+    saveSettings(){localStorage.setItem('settings',JSON.stringify(this.settings));}
+    loadSettings(){
+        try{
+            const s=JSON.parse(localStorage.getItem('settings'));if(!s)return;
+            this.settings={...this.settings,...s};
+            document.documentElement.setAttribute('data-theme',this.settings.theme||'dark');
+            if(this.settings.theme==='dark')document.getElementById('themeToggle').classList.add('active');
+            if(this.settings.icons===false){document.getElementById('iconsToggle').classList.remove('active');document.body.classList.add('no-icons');}
+            if(!this.settings.animations)document.getElementById('animationsToggle').classList.remove('active');
+            if(!this.settings.vibration)document.getElementById('vibrationToggle').classList.remove('active');
+            if(!this.settings.sound)document.getElementById('soundToggle').classList.remove('active');
+        }catch(e){}
+    }
+    saveStats(){localStorage.setItem('stats',JSON.stringify(this.stats));this.ui.updateStatsDisplay(this.stats);}
+    loadStats(){try{const s=JSON.parse(localStorage.getItem('stats'));if(s){this.stats={...this.stats,...s};this.ui.updateStatsDisplay(this.stats);}}catch(e){}}
+}
+
+/* boot */
+let app;
+document.addEventListener('DOMContentLoaded',()=>{
+    app=new AppManager();
+    const p=new URLSearchParams(location.search).get('difficulty');
+    if(['easy','medium','hard','expert'].includes(p)){document.getElementById('welcomeScreen').style.display='none';app.startNewGame(p);}
+});
+</script>
 </body>
 </html>
