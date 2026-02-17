@@ -46,7 +46,7 @@
         .update-prompt.visible{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
         .update-prompt-text{flex:1;font-size:14px;font-weight:500;}
         .update-now-btn{padding:8px 14px;background:var(--accent);color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;}
-        .app-container{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%;position:relative;}
+        .app-container{display:flex;flex-direction:column;height:100vh;height:100dvh;width:100%;position:relative;overflow:hidden;}
         .header{background:var(--bg-secondary);padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px var(--shadow);z-index:100;position:relative;}
         .header-left{display:flex;align-items:center;gap:10px;}
         .menu-btn{background:none;border:none;color:var(--text-primary);font-size:24px;cursor:pointer;padding:8px;border-radius:8px;transition:background 0.2s;}
@@ -67,24 +67,24 @@
         .ptr-indicator.pulling{transform:translateX(-50%) translateY(10px);}
         .ptr-indicator.refreshing{transform:translateX(-50%) translateY(10px);animation:spin 0.8s linear infinite;}
         @keyframes spin{to{transform:translateX(-50%) translateY(10px) rotate(360deg);}}
-        .game-container{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden;position:relative;}
-        .tubes-grid{display:grid;gap:14px;width:100%;max-width:500px;margin:0 auto;}
-        .tubes-grid.cols-3{grid-template-columns:repeat(3,1fr);}
-        .tubes-grid.cols-4{grid-template-columns:repeat(4,1fr);}
-        .tubes-grid.cols-5{grid-template-columns:repeat(5,1fr);}
-        .tubes-grid.cols-6{grid-template-columns:repeat(6,1fr);}
-        .tube{background:var(--tube-bg);border:2px solid var(--tube-border);border-radius:12px;padding:6px;cursor:pointer;transition:all 0.2s;position:relative;aspect-ratio:1/1.4;display:flex;flex-direction:column-reverse;gap:4px;min-width:55px;}
-        .tube:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 4px 12px var(--shadow);}
-        .tube.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.3);animation:pulse 0.6s ease-in-out;}
+        .game-container{flex:1;display:flex;align-items:center;justify-content:center;padding:10px;overflow:hidden;position:relative;box-sizing:border-box;min-height:0;width:100%;}
+        .tubes-grid{display:grid;gap:clamp(5px,2vw,12px);box-sizing:border-box;width:100%;}
+        .tubes-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+        .tubes-grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr));}
+        .tubes-grid.cols-5{grid-template-columns:repeat(5,minmax(0,1fr));}
+        .tubes-grid.cols-6{grid-template-columns:repeat(6,minmax(0,1fr));}
+        .tube{background:var(--tube-bg);border:2px solid var(--tube-border);border-radius:10px;padding:5px;cursor:pointer;transition:all 0.2s;position:relative;aspect-ratio:1/1.4;display:flex;flex-direction:column-reverse;gap:3px;min-width:0;overflow:hidden;}
+        .tube:hover{border-color:var(--accent);box-shadow:0 4px 12px var(--shadow);filter:brightness(1.05);}
+        .tube.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.35);animation:pulse 0.6s ease-in-out;}
         .tube.shake{animation:shake 0.3s ease-in-out;}
         .tube.added-tube{border-color:var(--warning);border-style:dashed;}
         .tube.hint-from{border-color:var(--warning)!important;box-shadow:0 0 0 3px rgba(245,158,11,0.4);}
         .tube.hint-to{border-color:var(--success)!important;box-shadow:0 0 0 3px rgba(16,185,129,0.4);}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
         @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-        .color-segment{flex:1;border-radius:6px;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);position:relative;min-height:18px;box-shadow:inset 0 -2px 4px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;}
-        .color-segment::before{content:'';position:absolute;top:4px;left:10%;width:30%;height:30%;background:rgba(255,255,255,0.3);border-radius:50%;filter:blur(4px);}
-        .color-segment::after{color:rgba(255,255,255,0.9);font-size:13px;font-weight:bold;text-shadow:0 1px 2px rgba(0,0,0,0.4);z-index:1;}
+        .color-segment{flex:1;border-radius:5px;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);position:relative;min-height:0;box-shadow:inset 0 -2px 4px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+        .color-segment::before{content:'';position:absolute;top:3px;left:10%;width:28%;height:28%;background:rgba(255,255,255,0.3);border-radius:50%;filter:blur(3px);}
+        .color-segment::after{color:rgba(255,255,255,0.9);font-size:clamp(8px,2vw,13px);font-weight:bold;text-shadow:0 1px 2px rgba(0,0,0,0.4);z-index:1;}
         .color-1{background:var(--color-1);}.color-1::after{content:'●';}
         .color-2{background:var(--color-2);}.color-2::after{content:'■';}
         .color-3{background:var(--color-3);}.color-3::after{content:'▲';}
@@ -192,8 +192,8 @@
         .reset-modal-btn{flex:1;padding:12px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;font-size:14px;}
         .reset-modal-btn.danger{background:var(--danger);color:white;}
         .reset-modal-btn.cancel{background:var(--bg-tertiary);color:var(--text-primary);}
-        @media(max-width:380px){.tubes-grid{gap:10px;}.tube{min-width:48px;}.control-btn{font-size:12px;padding:9px 8px;}}
-        @media(min-width:768px){.tubes-grid{max-width:600px;}}
+        @media(max-width:380px){.tubes-grid{gap:5px;}.control-btn{font-size:12px;padding:9px 8px;}}
+        @media(min-width:600px){.game-container{padding:16px 24px;}}
         .hidden{display:none!important;}
     </style>
 </head>
@@ -384,7 +384,13 @@ class UIController{
     constructor(){this.selectedTubeIndex=null;this.animating=false;}
     renderTubes(tubes,cap,added){
         const grid=document.getElementById('tubesGrid');grid.innerHTML='';
-        const n=tubes.length;const cols=n<=6?3:n<=8?4:n<=10?5:6;
+        const n=tubes.length;
+        // Calculate optimal columns: aim for ~2 rows max on mobile
+        let cols;
+        if(n<=6) cols=3;
+        else if(n<=8) cols=4;
+        else if(n<=10) cols=5;
+        else cols=6;
         grid.className=`tubes-grid cols-${cols}`;
         tubes.forEach((tube,idx)=>{
             const el=document.createElement('div');
